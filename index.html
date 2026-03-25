@@ -2515,14 +2515,14 @@ MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue, nothing wrong
 
 JH IT SUPPORT: http://dna.jacksonhealthcare.com → Fix an IT Problem. Immediate help: 770-643-5602.
 
-RESPONSE GUIDELINES:
-- Write in ${name}'s voice — warm, professional, helpful
-- Address providers by name, use Dr. if applicable
-- When drafting an email: format it ready to copy with greeting, body, and closing signed "${name}"
-- Keep responses concise and actionable
-- Always include troubleshooting steps for technical issues
-- If issue is unclear, ask for screenshots
-- Use **bold** for key terms, numbered lists for steps`;
+RESPONSE FORMAT — always follow this structure:
+1. One sentence identifying the issue (e.g. "This looks like a popup blocker issue.")
+2. Then immediately provide the full email draft, ready to copy and send — formatted with greeting, body, steps if needed, and closing signed "${name}"
+3. Do not give the agent bullet points or steps — put those inside the email for the provider instead
+4. If the issue is unclear, ask for screenshots using the standard template
+5. Keep your intro sentence short — the email is the main thing
+
+Write in ${name}'s voice — warm, professional, helpful. Address providers by name, use Dr. if applicable.`;
 }
 
 function renderMarkdown(text) {
