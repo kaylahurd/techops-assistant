@@ -129,6 +129,16 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
   margin-bottom: 14px; font-size: 13px; color: #065f46;
 }
 
+/* ── TYPING INDICATOR ───────────────────────────────────────────────── */
+.asst-typing { display: flex; align-items: center; gap: 4px; padding: 10px 14px !important; }
+.asst-typing span {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--muted);
+  animation: typingBounce .9s infinite ease-in-out;
+}
+.asst-typing span:nth-child(2) { animation-delay: .15s; }
+.asst-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes typingBounce { 0%,60%,100% { transform: translateY(0); opacity:.4; } 30% { transform: translateY(-6px); opacity:1; } }
+
 /* ── LAYOUT ─────────────────────────────────────────────────────────── */
 .layout { display: grid; grid-template-columns: 224px 1fr; min-height: calc(100vh - 60px); transition: grid-template-columns .2s ease; }
 .layout.sidebar-collapsed { grid-template-columns: 40px 1fr; }
@@ -881,9 +891,10 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
             <div style="font-size:12px;font-weight:700;color:var(--text);">TechOps Assistant</div>
             <div style="font-size:11px;color:var(--muted);" id="asst-case-label">No case loaded — select a case from My Queue to get case-specific help</div>
           </div>
-          <span style="font-size:11px;background:var(--teal-light);color:var(--teal);border:1px solid var(--tip-border);padding:3px 10px;border-radius:20px;font-weight:600;">Knowledge base connected</span>
+          <span id="api-status-badge" style="display:none;font-size:11px;background:var(--teal-light);color:var(--teal);border:1px solid var(--tip-border);padding:3px 10px;border-radius:20px;font-weight:600;">✦ AI Connected</span>
+          <span id="kb-status-badge" style="font-size:11px;background:var(--teal-light);color:var(--teal);border:1px solid var(--tip-border);padding:3px 10px;border-radius:20px;font-weight:600;">Knowledge base connected</span>
         </div>
-        <div style="background:#fef9ec;border:1px solid #fde68a;border-radius:var(--radius-sm);padding:7px 14px;font-size:11px;color:#92400e;display:flex;align-items:center;gap:7px;">
+        <div id="asst-disclaimer" style="background:#fef9ec;border:1px solid #fde68a;border-radius:var(--radius-sm);padding:7px 14px;font-size:11px;color:#92400e;display:flex;align-items:center;gap:7px;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           Responses are based on the TechOps knowledge base — always review before sending to a provider.
         </div>
@@ -2442,7 +2453,115 @@ function assistantKeydown(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAssistantMessage(); }
 }
 
-function sendAssistantMessage() {
+// ── CLAUDE API INTEGRATION ─────────────────────────────────────────────────
+const WORKER_URL = 'https://techops-api.kayla-hurd.workers.dev';
+let apiConversationHistory = [];
+
+function initApiState() {
+  setApiConnectedUI(true);
+}
+
+function setApiConnectedUI(connected) {
+  document.getElementById('api-status-badge').style.display = connected ? '' : 'none';
+  document.getElementById('kb-status-badge').style.display = connected ? 'none' : '';
+  document.getElementById('asst-disclaimer').innerHTML = connected
+    ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> AI-powered responses — always review before sending to a provider.'
+    : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Responses are based on the TechOps knowledge base — always review before sending to a provider.';
+}
+
+function buildSystemPrompt() {
+  const name = currentUser ? currentUser.name : 'Kayla';
+  const profile = getStyleProfile(name);
+  let caseContext = '';
+  if (chatCaseId) {
+    const c = MOCK_QUEUE.find(q => q.id === chatCaseId);
+    if (c) {
+      caseContext = `\nACTIVE CASE: #${c.id} — ${c.subject}\nProvider: ${c.provider}\nThread:\n${c.thread.map(m => `[${m.role === 'provider' ? 'Provider' : 'TechOps'}]: ${m.body}`).join('\n\n')}\n`;
+    }
+  }
+  const kbList = ISSUES.map(i => `- ${i.title}: ${i.description}`).join('\n');
+  return `You are the TechOps Assistant for LocumTenens.com, helping TechOps support agents draft provider email responses, troubleshoot issues, and answer questions quickly and accurately.
+
+CURRENT AGENT: ${name}
+SIGNING OFF AS: ${name} — use this name at the end of any email drafts.
+
+${caseContext}
+
+KNOWLEDGE BASE:
+${kbList}
+
+KEY FACTS:
+- Support line: 877-732-7080 (Mon–Fri 8:30 AM–5:30 PM EST)
+- TechOps email: techopshelpdesk@locumtenens.com
+- System emails from: LT_OnlineServices@locumtenens.com
+
+LOGIN/PASSWORD: Use Forgot Password on login page. Locked accounts unlock after reset OR 30-min wait. TechOps cannot manually unlock accounts.
+
+CREDENTIALING ACCESS: locumtenens.com → Log In → CREDENTIALS → Credentialing Overview → Get Started or Authenticate your account → redirects to Axuall. If redirect fails: popup blocker. Recommend Chrome. Safari: disable popup blocker. Chrome help: https://support.google.com/chrome/answer/95472 Safari help: https://support.apple.com/guide/safari/sfri40696/mac. Also try: clear cache, enable third-party cookies, different device.
+
+MISSING CREDENTIALS TAB: LTOE username must match SF email. Check in SF: Details tab → LTOE Username. SF email cannot be changed if portal verified — ticket lthelpdesk@locumtenens.com.
+
+DOCUMENT LIBRARY: For after credentialing is complete only. Documents uploaded there before finishing the app won't appear in Axuall.
+
+CLINICIAN PORTAL INVITE: Only verifies the account. Does NOT start credentialing. Provider must still go through Credentialing Overview.
+
+AXUALL IDENTITY VERIFICATION FAILURE: Provider must call Axuall Support at 888-298-1730. TechOps cannot make corrections. Common causes: name mismatch, DOB/SSN mismatch.
+
+AXUALL PRE-POPULATION: Auto-fills licenses, certs, basic demographics after identity verification. Must be manual: personal contact info, attestation questions, narrative fields, employment history.
+
+DOCUMENT SYNC: Takes up to 24 hours to sync from Axuall to SF. Normal — don't open a ticket.
+
+MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue, nothing wrong with account. Direct mobile link: https://portal.locumtenens.com/#/credentials/overview. Recommend desktop when possible.
+
+JH IT SUPPORT: http://dna.jacksonhealthcare.com → Fix an IT Problem. Immediate help: 770-643-5602.
+
+RESPONSE GUIDELINES:
+- Write in ${name}'s voice — warm, professional, helpful
+- Address providers by name, use Dr. if applicable
+- When drafting an email: format it ready to copy with greeting, body, and closing signed "${name}"
+- Keep responses concise and actionable
+- Always include troubleshooting steps for technical issues
+- If issue is unclear, ask for screenshots
+- Use **bold** for key terms, numbered lists for steps`;
+}
+
+function renderMarkdown(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;">$1</code>')
+    .replace(/^### (.+)$/gm, '<div style="font-weight:700;font-size:13px;margin:10px 0 4px;color:var(--text);">$1</div>')
+    .replace(/^## (.+)$/gm, '<div style="font-weight:700;font-size:14px;margin:12px 0 5px;color:var(--text);">$1</div>')
+    .replace(/^[-•\*] (.+)$/gm, '<div style="display:flex;gap:7px;margin:3px 0;"><span style="color:var(--brand);flex-shrink:0;">•</span><span>$1</span></div>')
+    .replace(/^(\d+)\. (.+)$/gm, '<div style="display:flex;gap:7px;margin:3px 0;"><span style="font-weight:700;color:var(--brand);min-width:16px;flex-shrink:0;">$1.</span><span>$2</span></div>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
+
+async function callWorkerAPI(userMessage) {
+  apiConversationHistory.push({ role: 'user', content: userMessage });
+  const response = await fetch(WORKER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 1024,
+      system: buildSystemPrompt(),
+      messages: apiConversationHistory
+    })
+  });
+  if (!response.ok) {
+    apiConversationHistory.pop();
+    const err = await response.json();
+    throw new Error(err.error?.message || 'Worker error');
+  }
+  const data = await response.json();
+  const reply = data.content[0].text;
+  apiConversationHistory.push({ role: 'assistant', content: reply });
+  return reply;
+}
+
+async function sendAssistantMessage() {
   const input = document.getElementById('assistant-input');
   const text = input.value.trim();
   if (!text) return;
@@ -2457,7 +2576,30 @@ function sendAssistantMessage() {
   autoResizeAssistant(input);
   msgs.scrollTop = msgs.scrollHeight;
 
-  setTimeout(() => {
+  // Show typing indicator
+  const typingId = 'typing-' + Date.now();
+  msgs.innerHTML += `<div class="asst-msg bot" id="${typingId}"><div class="asst-bubble asst-typing"><span></span><span></span><span></span></div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  try {
+    const reply = await callWorkerAPI(text);
+    document.getElementById(typingId)?.remove();
+    const msgId = 'asst-msg-' + Date.now();
+    const rendered = renderMarkdown(reply);
+    let html = `<div class="asst-msg bot" id="${msgId}">
+      <div class="asst-bubble">${rendered}</div>
+      <div class="asst-msg-actions">
+        <button class="asst-action-btn" onclick="copyMsgText('${msgId}', this)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+    </div>`;
+    msgs.innerHTML += html;
+    msgs.scrollTop = msgs.scrollHeight;
+  } catch (err) {
+    document.getElementById(typingId)?.remove();
+    // Fallback to keyword matching
     const { reply, detailHtml, emailDraft } = buildAssistantReply(text);
     const msgId = 'asst-msg-' + Date.now();
     const replyText = reply.replace(/<[^>]+>/g, '');
@@ -2476,7 +2618,7 @@ function sendAssistantMessage() {
     </div></div>`;
     msgs.innerHTML += html;
     msgs.scrollTop = msgs.scrollHeight;
-  }, 320);
+  }
 }
 
 function buildAssistantReply(text) {
@@ -3837,6 +3979,7 @@ renderQueue('all');
 renderKB('all');
 loadStyleProfileUI('Kayla');
 initOutlookState();
+initApiState();
 // Default tab is Assistant — hide the FAB on load
 document.getElementById('chat-fab').style.display = 'none';
 
