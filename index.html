@@ -57,6 +57,78 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
 .btn-sf-coming { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.35); padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: not-allowed; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px; }
 .btn-sf-coming svg { opacity: .4; }
 
+/* ── OUTLOOK CONNECT BUTTON ─────────────────────────────────────────── */
+.btn-outlook {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.75); padding: 7px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; gap: 6px; transition: all .15s;
+}
+.btn-outlook:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.45); }
+.btn-outlook.connected { background: rgba(0,168,120,0.2); border-color: rgba(0,168,120,0.5); color: #5de8c0; cursor: default; }
+.btn-outlook.connected:hover { background: rgba(0,168,120,0.2); color: #5de8c0; border-color: rgba(0,168,120,0.5); }
+.btn-outlook-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+/* ── OUTLOOK MODAL ──────────────────────────────────────────────────── */
+.outlook-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 500;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+.outlook-modal-overlay.open { opacity: 1; pointer-events: all; }
+.outlook-modal {
+  background: #fff; border-radius: 4px; width: 440px; max-width: 95vw;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22); overflow: hidden;
+  transform: translateY(10px); transition: transform .2s;
+  font-family: 'Segoe UI', -apple-system, sans-serif;
+}
+.outlook-modal-overlay.open .outlook-modal { transform: translateY(0); }
+.outlook-modal-header { padding: 28px 32px 0; text-align: center; }
+.outlook-modal-ms-logo { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 20px; }
+.outlook-modal-ms-logo svg { width: 108px; }
+.outlook-modal-title { font-size: 20px; font-weight: 300; color: #1b1b1b; margin-bottom: 6px; letter-spacing: -.2px; }
+.outlook-modal-sub { font-size: 13px; color: #444; margin-bottom: 20px; }
+.outlook-modal-email-display {
+  background: #f2f2f2; border: 1px solid #d4d4d4; border-radius: 2px;
+  padding: 8px 14px; font-size: 14px; color: #1b1b1b; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.outlook-modal-body { padding: 0 32px 28px; }
+.outlook-modal-input {
+  width: 100%; border: none; border-bottom: 2px solid #0067b8;
+  padding: 8px 0; font-size: 14px; color: #1b1b1b; outline: none;
+  background: transparent; margin-bottom: 6px; font-family: inherit;
+}
+.outlook-modal-input::placeholder { color: #999; }
+.outlook-modal-input-label { font-size: 13px; color: #444; margin-bottom: 14px; display: block; }
+.outlook-modal-forgot { font-size: 13px; color: #0067b8; cursor: pointer; text-decoration: none; display: block; margin-bottom: 24px; }
+.outlook-modal-forgot:hover { text-decoration: underline; }
+.outlook-modal-actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.outlook-modal-back { font-size: 13px; color: #0067b8; cursor: pointer; background: none; border: none; font-family: inherit; padding: 0; }
+.outlook-modal-back:hover { text-decoration: underline; }
+.outlook-modal-next {
+  background: #0067b8; color: #fff; border: none; padding: 8px 20px;
+  font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;
+  border-radius: 2px; transition: background .15s;
+}
+.outlook-modal-next:hover { background: #005da6; }
+.outlook-modal-divider { border: none; border-top: 1px solid #e0e0e0; margin: 16px 0; }
+.outlook-modal-options { font-size: 13px; color: #0067b8; }
+.outlook-modal-options a { color: #0067b8; cursor: pointer; display: block; margin-bottom: 8px; text-decoration: none; }
+.outlook-modal-options a:hover { text-decoration: underline; }
+.outlook-modal-loading { text-align: center; padding: 32px; }
+.outlook-modal-spinner {
+  width: 32px; height: 32px; border: 3px solid #e0e0e0; border-top-color: #0067b8;
+  border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 16px;
+}
+.outlook-modal-connected-check { font-size: 48px; margin-bottom: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.outlook-connected-banner {
+  background: #e6f8f4; border: 1px solid #6ee7c7; border-radius: var(--radius-sm);
+  padding: 10px 14px; display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; font-size: 13px; color: #065f46;
+}
+
 /* ── LAYOUT ─────────────────────────────────────────────────────────── */
 .layout { display: grid; grid-template-columns: 224px 1fr; min-height: calc(100vh - 60px); transition: grid-template-columns .2s ease; }
 .layout.sidebar-collapsed { grid-template-columns: 40px 1fr; }
@@ -605,6 +677,80 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
   </div>
 </div>
 
+<!-- ── OUTLOOK OAUTH MODAL ─────────────────────────────────────────────── -->
+<div class="outlook-modal-overlay" id="outlook-modal-overlay" onclick="closeOutlookModalOnBg(event)">
+  <div class="outlook-modal">
+    <!-- Step 1: Email -->
+    <div id="outlook-step-email">
+      <div class="outlook-modal-header">
+        <div class="outlook-modal-ms-logo">
+          <svg viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text y="20" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="300" fill="#1b1b1b">Microsoft</text>
+          </svg>
+        </div>
+        <div class="outlook-modal-title">Sign in</div>
+        <div class="outlook-modal-sub">to continue to TechOps Assistant</div>
+      </div>
+      <div class="outlook-modal-body">
+        <input class="outlook-modal-input" type="email" id="outlook-email-input" placeholder="Email, phone, or Skype" autocomplete="email" onkeydown="if(event.key==='Enter')outlookNextStep()">
+        <span class="outlook-modal-input-label">No account? <a style="color:#0067b8;cursor:pointer;">Create one!</a></span>
+        <a class="outlook-modal-forgot">Can't access your account?</a>
+        <div class="outlook-modal-actions">
+          <button class="outlook-modal-back" onclick="closeOutlookModal()">Cancel</button>
+          <button class="outlook-modal-next" onclick="outlookNextStep()">Next</button>
+        </div>
+      </div>
+    </div>
+    <!-- Step 2: Password -->
+    <div id="outlook-step-password" style="display:none;">
+      <div class="outlook-modal-header">
+        <div class="outlook-modal-ms-logo">
+          <svg viewBox="0 0 108 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text y="20" font-family="Segoe UI,Arial,sans-serif" font-size="22" font-weight="300" fill="#1b1b1b">Microsoft</text>
+          </svg>
+        </div>
+        <div class="outlook-modal-email-display">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span id="outlook-email-display"></span>
+        </div>
+        <div class="outlook-modal-title">Enter password</div>
+      </div>
+      <div class="outlook-modal-body">
+        <input class="outlook-modal-input" type="password" id="outlook-password-input" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')outlookSignIn()">
+        <a class="outlook-modal-forgot">Forgot my password</a>
+        <div class="outlook-modal-actions">
+          <button class="outlook-modal-back" onclick="outlookGoBack()">Back</button>
+          <button class="outlook-modal-next" onclick="outlookSignIn()">Sign in</button>
+        </div>
+        <hr class="outlook-modal-divider">
+        <div class="outlook-modal-options">
+          <a>Sign-in options</a>
+        </div>
+      </div>
+    </div>
+    <!-- Step 3: Loading -->
+    <div id="outlook-step-loading" style="display:none;">
+      <div class="outlook-modal-loading">
+        <div class="outlook-modal-spinner"></div>
+        <div style="font-size:14px;color:#444;font-family:'Segoe UI',sans-serif;">Connecting to Microsoft 365...</div>
+      </div>
+    </div>
+    <!-- Step 4: Connected -->
+    <div id="outlook-step-connected" style="display:none;">
+      <div class="outlook-modal-loading">
+        <div class="outlook-modal-connected-check">✅</div>
+        <div style="font-size:16px;font-weight:600;color:#1b1b1b;margin-bottom:6px;font-family:'Segoe UI',sans-serif;">Outlook connected!</div>
+        <div style="font-size:13px;color:#444;margin-bottom:20px;font-family:'Segoe UI',sans-serif;" id="outlook-connected-label"></div>
+        <div style="font-size:12px;color:#666;background:#f5f5f5;padding:10px 14px;border-radius:4px;text-align:left;font-family:'Segoe UI',sans-serif;margin-bottom:20px;">
+          <strong>Waiting on IT approval</strong> to read the shared mailbox.<br>
+          Once approved, your queue will load from Outlook automatically.
+        </div>
+        <button class="outlook-modal-next" onclick="closeOutlookModal()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── HEADER ──────────────────────────────────────────────────────────── -->
 <header class="header">
   <div class="header-left">
@@ -619,9 +765,19 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
     </div>
   </div>
   <div class="header-user">
+    <button class="btn-outlook" id="outlook-connect-btn" onclick="handleOutlookConnect()">
+      <!-- Outlook icon -->
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="4" width="13" height="16" rx="1.5" fill="#0078d4"/>
+        <rect x="9" y="8" width="13" height="10" rx="1.5" fill="#1a9bfc" opacity=".9"/>
+        <circle cx="15.5" cy="13" r="3.5" fill="#fff" opacity=".15"/>
+        <text x="4" y="16" font-family="Arial" font-size="9" font-weight="800" fill="#fff">O</text>
+      </svg>
+      <span id="outlook-btn-label">Connect Outlook</span>
+    </button>
     <button class="btn-sf-coming" disabled>
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-      Salesforce Integration — Coming Soon
+      Salesforce — Coming Soon
     </button>
     <div class="user-avatar" id="header-avatar" style="background:var(--brand);"></div>
     <div>
@@ -727,12 +883,16 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
           </div>
           <span style="font-size:11px;background:var(--teal-light);color:var(--teal);border:1px solid var(--tip-border);padding:3px 10px;border-radius:20px;font-weight:600;">Knowledge base connected</span>
         </div>
+        <div style="background:#fef9ec;border:1px solid #fde68a;border-radius:var(--radius-sm);padding:7px 14px;font-size:11px;color:#92400e;display:flex;align-items:center;gap:7px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Responses are based on the TechOps knowledge base — always review before sending to a provider.
+        </div>
         <!-- Messages -->
         <div class="assistant-messages" id="assistant-messages">
           <div id="asst-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;text-align:center;padding:48px 24px;">
             <div style="font-size:40px;margin-bottom:14px;">🤖</div>
             <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;">TechOps Assistant</div>
-            <div style="font-size:13px;color:var(--muted);max-width:420px;margin-bottom:28px;line-height:1.7;">I can help write responses, identify issues, look things up from the knowledge base, and draft SF closing summaries. Once the API is connected, I'll respond in real time.</div>
+            <div style="font-size:13px;color:var(--muted);max-width:420px;margin-bottom:28px;line-height:1.7;">I can help write responses, identify issues, look things up from the knowledge base, and draft SF closing summaries. Try one of the prompts below or ask me anything.</div>
             <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:500px;">
               <button class="asst-suggestion" onclick="prefillAssistant(this)">What's the fix for a provider stuck on the Oh no screen?</button>
               <button class="asst-suggestion" onclick="prefillAssistant(this)">Write a follow-up email for someone who hasn't replied in 3 days</button>
@@ -752,6 +912,11 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
     </div>
     <!-- ── TAB: QUEUE ───────────────────────────────────────────── -->
     <div class="tab-panel" id="tab-queue">
+      <div id="outlook-connected-banner" class="outlook-connected-banner" style="display:none;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12 19.79 19.79 0 0 1 1.07 3.4 2 2 0 0 1 3.05 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/></svg>
+        <span><strong>Outlook connected</strong> — shared mailbox access pending IT approval. Your queue will load from Outlook automatically once approved.</span>
+        <button onclick="disconnectOutlook()" style="margin-left:auto;background:none;border:none;color:#065f46;font-size:11px;cursor:pointer;text-decoration:underline;font-family:inherit;">Disconnect</button>
+      </div>
       <div class="proto-banner" style="margin-bottom:12px;">
         🧪 <strong>Prototype</strong> — Fake Salesforce data. Click any case to see the thread and compose a reply inline. "Open in SF" links out when you're ready to send.
       </div>
@@ -1101,15 +1266,25 @@ We will follow up as soon as we have an update. Please don't hesitate to reach o
 Thank you for reaching out! Here are the steps to access your credentialing application:
 
 1. Log in at www.locumtenens.com using the email address on file.
-2. Click CREDENTIALS from the top navigation menu.
-3. Select Credentialing Overview.
-4. You will see a prompt to verify your NPI and click Get Started, or click "Authenticate your account."
-5. You will then be automatically redirected to your credentialing application in Axuall.
+2. Click the Log In button.
+3. Click CREDENTIALS from the top navigation menu.
+4. Select Credentialing Overview.
+5. You will see a prompt to verify your NPI and click Get Started, or click "Authenticate your account."
+6. You will then be automatically redirected to your credentialing application in Axuall.
 
-If you run into any issues, here are a few things to try:
-- Use Google Chrome for the best experience
-- Clear your browser cache if the page is slow or looping
+If the redirect does not happen after clicking, it is most likely due to pop-up blockers — especially in Safari on Mac, iPhone, and iPad. To resolve this:
+
+- We recommend switching to Google Chrome for the best experience.
+- If you prefer Safari, you can disable the pop-up blocker to allow the redirect:
+  • How to Allow Pop-ups in Chrome: https://support.google.com/chrome/answer/95472
+  • How to Allow Pop-ups in Safari (Mac, iPhone & iPad): https://support.apple.com/guide/safari/sfri40696/mac
+
+Once pop-ups are allowed for locumtenens.com, click the button on the Credentials page and it should redirect you to your credentialing application.
+
+Additional troubleshooting tips:
+- Clear your browser cache if the page is slow, blank, or looping
 - Make sure third-party cookies are enabled in your browser settings
+- Try a different device if the issue continues
 
 Please don't hesitate to reach out if you have any questions!
 
@@ -1171,15 +1346,23 @@ Please don't hesitate to reach out if you need further assistance!
 Thank you for reaching out! Here are the steps to begin your re-credentialing application:
 
 1. Log in at www.locumtenens.com using the email address on file.
-2. Click CREDENTIALS from the top navigation menu.
-3. Select Credentialing Overview.
-4. Click "Start my re-credentialing application."
-5. You will be automatically redirected to your re-credentialing application in Axuall.
+2. Click the Log In button.
+3. Click CREDENTIALS from the top navigation menu.
+4. Select Credentialing Overview.
+5. Click "Start my re-credentialing application."
+6. You will be automatically redirected to your re-credentialing application in Axuall.
 
-If you run into any issues, here are a few things to try:
-- Use Google Chrome for the best experience
-- Clear your browser cache if the page is slow or looping
+If the redirect does not happen, it is most likely due to pop-up blockers — especially in Safari on Mac, iPhone, and iPad. To resolve this:
+
+- We recommend switching to Google Chrome for the best experience.
+- If you prefer Safari, you can disable the pop-up blocker:
+  • How to Allow Pop-ups in Chrome: https://support.google.com/chrome/answer/95472
+  • How to Allow Pop-ups in Safari (Mac, iPhone & iPad): https://support.apple.com/guide/safari/sfri40696/mac
+
+Additional troubleshooting tips:
+- Clear your browser cache if the page is slow, blank, or looping
 - Make sure third-party cookies are enabled in your browser settings
+- Try a different device if the issue continues
 
 Please don't hesitate to reach out if you have any questions!
 
@@ -2320,6 +2503,12 @@ function buildAssistantReply(text) {
     };
   }
 
+  // Authenticate button not working / popup blocker — check BEFORE general credentialing
+  if (/authenticate.*(not work|stuck|nothing|won.t|doesn.t|button|redirect|wont)|popup|pop.up|popups|safari.*block|block.*safari|axuall.*(won.t|wont|not load|blank|open)|redirect.*(not|won.t|doesn.t)/i.test(lower)) {
+    const issue = ISSUES.find(i => i.id === 8);
+    if (issue) return issueResult(issue);
+  }
+
   // Popup blocker / credentialing
   if (/popup|pop.up|block|credential|document.*open|won.t open/i.test(lower)) {
     const issue = ISSUES.find(i => i.id === 3 || i.keywords.some(k => lower.includes(k)));
@@ -2472,6 +2661,150 @@ Best,
 ISSUE_CASUAL[15]  = "getting their Kimedics invite or timesheet to the right person";
 ISSUE_DETAIL[15]  = "The approver or recipient in Salesforce may have been outdated or incorrect.";
 ISSUE_ACTION[15]  = "sent a manual push with the updated invite link to the correct contact";
+
+// ── ISSUE #16: DOCUMENT LIBRARY CONFUSION ─────────────────────────────────
+ISSUES.push({
+  id: 16, category: "cred", icon: "🗃️",
+  title: "Uploading to Document Library Instead of Credentialing App",
+  description: "Provider is uploading documents to the Document Library instead of completing the credentialing application in Axuall.",
+  keywords: [
+    "document library", "doc library", "uploaded documents", "documents not in axuall",
+    "documents not showing", "documents not appearing", "uploaded but not showing",
+    "uploaded to wrong place", "library instead", "wrong section", "wrong area",
+    "documents missing axuall", "axuall missing documents", "cant find documents",
+    "documents not there", "where are my documents", "document library vs axuall",
+    "uploaded already", "already uploaded", "documents dont show", "documents not visible"
+  ],
+  email: {
+    subject: "Action Required – Complete Your Credentialing Application in Axuall",
+    body: `Hi [Provider Name],
+
+Thank you for reaching out! It looks like the documents may have been uploaded to the Document Library rather than directly through the credentialing application in Axuall.
+
+Just to clarify:
+- The Document Library is intended for uploading additional documents after the credentialing application has been completed.
+- Documents uploaded to the Document Library before the application is finished will not appear in Axuall.
+
+To get started with the credentialing application, please follow these steps:
+
+1. Log in at www.locumtenens.com using the email address on file.
+2. Click the Log In button.
+3. Click CREDENTIALS from the top navigation menu.
+4. Select Credentialing Overview.
+5. Click "Start My Re-Credentialing Application" (or follow the prompts to begin).
+6. This will redirect you to your credentialing application in Axuall, where you can upload your documents directly.
+
+Please don't hesitate to reach out if you have any questions!
+
+[Your Name]`
+  }
+});
+ISSUE_CASUAL[16]  = "accidentally uploading documents to the Document Library instead of Axuall";
+ISSUE_DETAIL[16]  = "The Document Library is for post-credentialing documents only — documents uploaded there before completing the application won't appear in Axuall.";
+ISSUE_ACTION[16]  = "clarified the difference between the Document Library and the credentialing application and sent next steps";
+
+// ── ISSUE #17: JH IT SUPPORT ───────────────────────────────────────────────
+ISSUES.push({
+  id: 17, category: "portal", icon: "💻",
+  title: "Jackson Healthcare IT Support",
+  description: "Provider or internal staff needs IT support for Jackson Healthcare systems.",
+  keywords: [
+    "jackson healthcare", "jackson health", "jh it", "jh support", "dna.jacksonhealthcare",
+    "jackson it", "fix an it problem", "it problem", "it ticket", "it support",
+    "jackson helpdesk", "jh helpdesk", "internal it", "it request", "support request",
+    "770-643-5602", "jackson portal", "it issue", "computer issue", "laptop issue"
+  ],
+  email: {
+    subject: "Jackson Healthcare IT Support",
+    body: `Hi [Name],
+
+For IT support related to Jackson Healthcare systems, you have two options:
+
+1. Submit a support request online:
+   Go to http://dna.jacksonhealthcare.com and click "Fix an IT Problem" to enter a support request.
+
+2. Call for immediate help:
+   Phone: 770-643-5602
+
+Please don't hesitate to reach out if you need anything else!
+
+[Your Name]`
+  }
+});
+ISSUE_CASUAL[17]  = "needing Jackson Healthcare IT support";
+ISSUE_DETAIL[17]  = "JH IT can be reached via the DNA portal or by phone for immediate assistance.";
+ISSUE_ACTION[17]  = "provided Jackson Healthcare IT support contact information";
+
+// ── ISSUE #18: AXUALL INFO NOT PRE-POPULATING ─────────────────────────────
+ISSUES.push({
+  id: 18, category: "axuall", icon: "📝",
+  title: "Axuall Application Not Pre-Populating",
+  description: "Provider reports that information is not filling in automatically on their credentialing application.",
+  keywords: [
+    "not pre-populating", "not filling in", "not auto filling", "not autofilling",
+    "blank fields", "empty fields", "information not there", "info not showing",
+    "application is blank", "nothing is filled", "fields are empty",
+    "axuall not filling", "axuall blank fields", "pre-populate", "pre populate",
+    "auto populate", "autopopulate", "information missing application",
+    "why is it blank", "fields not filled", "not populated"
+  ],
+  email: {
+    subject: "Regarding Your Credentialing Application Fields",
+    body: `Hi [Provider Name],
+
+Thank you for reaching out! Axuall does automatically pull certain information from verified databases, but not all fields will be pre-filled. Here is what to expect:
+
+What Axuall typically pre-populates:
+- State licenses (status, expiration date, board certifications, DEA when applicable)
+- BLS/ACLS/PALS certifications (when tied to credentialing boards)
+- Name, date of birth, NPI, and basic demographics (after identity verification)
+
+What must be entered manually:
+- Personal contact info (phone, email, home address)
+- Attestation questions (disciplinary history, malpractice, convictions)
+- Any narrative/explanation fields ("explain this gap", "explain this claim")
+- Employment history dates and roles (Axuall may suggest these but they require confirmation)
+
+If a field you expect to be filled is blank, it likely falls into the manual entry category. Please complete those fields directly in the application.
+
+Please don't hesitate to reach out if you have any questions!
+
+[Your Name]`
+  }
+});
+ISSUE_CASUAL[18]  = "wondering why their Axuall application fields aren't pre-filled";
+ISSUE_DETAIL[18]  = "Axuall pre-populates license and certification data from verified databases, but personal, attestation, and narrative fields must be manually entered.";
+ISSUE_ACTION[18]  = "explained what Axuall pre-populates vs. what requires manual entry";
+
+// ── ISSUE #19: REQUEST SCREENSHOTS / UNCLEAR ISSUE ────────────────────────
+ISSUES.push({
+  id: 19, category: "portal", icon: "📸",
+  title: "Request Screenshots to Troubleshoot",
+  description: "Issue is unclear — ask the provider to share screenshots to help diagnose the problem.",
+  keywords: [
+    "not working", "having trouble", "having issues", "problem", "issue",
+    "something wrong", "not sure", "dont know", "unclear", "cant figure out",
+    "help me", "need help", "screenshot", "error message", "what do i say",
+    "general issue", "vague issue", "unsure what issue", "unknown error"
+  ],
+  email: {
+    subject: "Re: Technical Assistance",
+    body: `Hi [Provider Name],
+
+I hope you're having a great day! We are so sorry to hear you are having trouble. If you don't mind sharing any screenshots or pictures of the issue you are seeing, that would best help us troubleshoot the problem.
+
+In the meantime, if you need immediate assistance, you can reach us at:
+- Phone: 877-732-7080 (Monday–Friday, 8:30 AM – 5:30 PM EST)
+- Or reply with a day and time that works best for you and we will be happy to reach out!
+
+If you have any questions, feel free to reach out — we are happy to help!
+
+[Your Name]`
+  }
+});
+ISSUE_CASUAL[19]  = "a technical issue that needs more information to diagnose";
+ISSUE_DETAIL[19]  = "The issue was unclear — screenshots were requested to help identify the problem.";
+ISSUE_ACTION[19]  = "requested screenshots and offered a callback to troubleshoot";
 
 // ── UTILITIES ─────────────────────────────────────────────────────────────
 function capitalize(str) {
@@ -3321,6 +3654,101 @@ function toggleSidebar() {
   btn.title = sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar';
 }
 
+// ── OUTLOOK OAUTH (PROTOTYPE) ──────────────────────────────────────────────
+let outlookConnected = false;
+
+function initOutlookState() {
+  const saved = localStorage.getItem('outlook_connected');
+  if (saved) {
+    const data = JSON.parse(saved);
+    outlookConnected = true;
+    setOutlookConnectedUI(data.email);
+  }
+}
+
+function handleOutlookConnect() {
+  if (outlookConnected) return;
+  // Pre-fill email from logged-in user if available
+  const headerName = document.getElementById('header-name')?.textContent || '';
+  const guessedEmail = headerName ? headerName.toLowerCase().replace(' ', '.') + '@locumtenens.com' : '';
+  document.getElementById('outlook-email-input').value = guessedEmail;
+  document.getElementById('outlook-step-email').style.display = '';
+  document.getElementById('outlook-step-password').style.display = 'none';
+  document.getElementById('outlook-step-loading').style.display = 'none';
+  document.getElementById('outlook-step-connected').style.display = 'none';
+  document.getElementById('outlook-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('outlook-email-input').focus(), 100);
+}
+
+function outlookNextStep() {
+  const email = document.getElementById('outlook-email-input').value.trim();
+  if (!email) return;
+  document.getElementById('outlook-email-display').textContent = email;
+  document.getElementById('outlook-step-email').style.display = 'none';
+  document.getElementById('outlook-step-password').style.display = '';
+  setTimeout(() => document.getElementById('outlook-password-input').focus(), 100);
+}
+
+function outlookGoBack() {
+  document.getElementById('outlook-step-password').style.display = 'none';
+  document.getElementById('outlook-step-email').style.display = '';
+  setTimeout(() => document.getElementById('outlook-email-input').focus(), 100);
+}
+
+function outlookSignIn() {
+  const email = document.getElementById('outlook-email-display').textContent;
+  document.getElementById('outlook-step-password').style.display = 'none';
+  document.getElementById('outlook-step-loading').style.display = '';
+  // Simulate OAuth handshake delay
+  setTimeout(() => {
+    document.getElementById('outlook-step-loading').style.display = 'none';
+    document.getElementById('outlook-step-connected').style.display = '';
+    document.getElementById('outlook-connected-label').textContent = 'Connected as ' + email;
+    // Save state
+    localStorage.setItem('outlook_connected', JSON.stringify({ email }));
+    outlookConnected = true;
+    setOutlookConnectedUI(email);
+  }, 1800);
+}
+
+function setOutlookConnectedUI(email) {
+  const btn = document.getElementById('outlook-connect-btn');
+  const label = document.getElementById('outlook-btn-label');
+  btn.classList.add('connected');
+  label.textContent = 'Outlook Connected';
+  // Insert dot indicator
+  if (!btn.querySelector('.btn-outlook-dot')) {
+    const dot = document.createElement('span');
+    dot.className = 'btn-outlook-dot';
+    btn.insertBefore(dot, btn.firstChild);
+  }
+  btn.onclick = null; // disable click when connected
+  // Show banner in My Queue
+  const banner = document.getElementById('outlook-connected-banner');
+  if (banner) banner.style.display = 'flex';
+}
+
+function disconnectOutlook() {
+  localStorage.removeItem('outlook_connected');
+  outlookConnected = false;
+  const btn = document.getElementById('outlook-connect-btn');
+  const label = document.getElementById('outlook-btn-label');
+  btn.classList.remove('connected');
+  label.textContent = 'Connect Outlook';
+  const dot = btn.querySelector('.btn-outlook-dot');
+  if (dot) dot.remove();
+  btn.onclick = handleOutlookConnect;
+  document.getElementById('outlook-connected-banner').style.display = 'none';
+}
+
+function closeOutlookModal() {
+  document.getElementById('outlook-modal-overlay').classList.remove('open');
+}
+
+function closeOutlookModalOnBg(e) {
+  if (e.target === document.getElementById('outlook-modal-overlay')) closeOutlookModal();
+}
+
 // Drag the FAB (and reposition panel relative to it)
 (function initChatDrag() {
   document.addEventListener('DOMContentLoaded', () => {
@@ -3408,6 +3836,7 @@ loadCustomIssues();
 renderQueue('all');
 renderKB('all');
 loadStyleProfileUI('Kayla');
+initOutlookState();
 // Default tab is Assistant — hide the FAB on load
 document.getElementById('chat-fab').style.display = 'none';
 
