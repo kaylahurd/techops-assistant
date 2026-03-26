@@ -1217,6 +1217,7 @@ function analyzeAndReplyFallback(caseId, c) {
     .replace('[DAY_OPENER]', dayOpener)
     .replace('Happy [Day]!', dayOpener)
     .replace('[Day]', day);
+  draft = draft.replace(/\n{2,}/g, '\n');
   document.getElementById(`compose-subject-${caseId}`).innerHTML = `<span style="font-weight:700;color:var(--info-text);">Subject: </span><em>${email.subject}</em>`;
   document.getElementById(`compose-draft-${caseId}`).value = draft;
   document.getElementById(`compose-output-${caseId}`).classList.add('show');
@@ -1396,7 +1397,7 @@ function copyInlineSummary(caseId) {
 
 function copyComposeDraft(caseId) {
   const btn = document.getElementById(`compose-copy-${caseId}`);
-  const text = document.getElementById(`compose-draft-${caseId}`).value;
+  const text = document.getElementById(`compose-draft-${caseId}`).value.replace(/<[^>]+>/g, '').trim();
   copyToClipboard(text, btn, 'Copy Response');
 }
 
@@ -1425,6 +1426,7 @@ let autoCollapsedSidebar = false;
 function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tabId));
+  document.body.classList.toggle('on-queue', tabId === 'queue');
   const fab = document.getElementById('chat-fab');
   if (tabId === 'assistant') {
     if (fab) fab.style.display = 'none';
@@ -1802,7 +1804,7 @@ function issueResult(issue) {
     (stepsHtml
       ? stepsHtml
       : emailBody
-        ? `<pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${emailBody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`
+        ? `<pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${emailBody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`
         : '');
   return {
     reply: `Found a match in the knowledge base for <strong>${issue.icon || '🔧'} ${issue.title}</strong>.`,
@@ -1871,18 +1873,7 @@ ISSUES.push({
   ],
   email: {
     subject: "Re: Kimedics Invitation",
-    body: `Hi [Name],
-
-I hope you're having a great day!
-
-I've sent an invitation email to [Provider Name]. If they don't see it in their inbox, I recommend checking their Spam/Junk folder, as the message will come from portal@kimedics.com. It may also help to ensure that emails from Kimedics aren't being blocked by their IT team.
-
-In the meantime, here's a direct link [Provider Name] can use to create their account if the email doesn't come through:
-
-[Kimedics invite link]
-
-I hope this helps! Let me know if you need anything further.
-
+    body: `Hi [Name]! Happy [Day]! I've sent an invitation email to [Provider Name]. If they don't see it in their inbox, I'd recommend checking their Spam/Junk folder — the message will come from portal@kimedics.com. It may also help to make sure emails from Kimedics aren't being blocked by their IT team. In the meantime, here's a direct link [Provider Name] can use to create their account if the email doesn't come through: [Kimedics invite link]. I hope this helps! Let us know if you need anything further.
 Best,
 [Your Name]`
   }
