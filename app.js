@@ -1266,7 +1266,7 @@ async function analyzeAndReply(caseId) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 600,
-        system: `You are ${name}, a TechOps support agent at LocumTenens.com. Write a professional, warm email reply to a provider based on their support thread. Use the TechOps knowledge base to give the right answer. Sign the email "${name}". Never use em dashes. If you can identify the provider's name from the thread, use it in the greeting; otherwise use "Hi!". Return ONLY the email body — no subject line, no extra commentary, just the email text ready to send.${profile.instructions ? `\n\nPersonal instructions from ${name}: ${profile.instructions}` : ''}\n\nKNOWLEDGE BASE:\n${kbList}${teamKB ? `\n\nTEAM EMAIL PATTERNS:\n${teamKB}` : ''}`,
+        system: `You are ${name}, a TechOps support agent at LocumTenens.com. Write a professional, warm email reply to a provider based on their support thread. Use the TechOps knowledge base to give the right answer. Sign the email "${name}". Never use em dashes. Never use emojis. Plain text only — no bullet points with symbols, no decorative characters. If you can identify the provider's name from the thread, use it in the greeting; otherwise use "Hi!". Return ONLY the email body — no subject line, no extra commentary, just the email text ready to send.${profile.instructions ? `\n\nPersonal instructions from ${name}: ${profile.instructions}` : ''}\n\nKNOWLEDGE BASE:\n${kbList}${teamKB ? `\n\nTEAM EMAIL PATTERNS:\n${teamKB}` : ''}`,
         messages: [{ role: 'user', content: `Write the next reply from TechOps for this case.\n\nCase: ${c.id} — ${c.subject}\nProvider: ${c.provider}\n\nFull thread:\n${thread}` }]
       })
     });
@@ -1561,7 +1561,7 @@ RESPONSE FORMAT — always follow this structure:
 
 PROVIDER NAME: If you can identify the provider's name from the input, use it in the email greeting. If not, use "Hi!" as the greeting.
 
-Write in ${name}'s voice — warm, professional, helpful. Address providers by name, use Dr. if applicable. Never use em dashes (—) in responses unless the agent explicitly asks for them.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()} — always follow these:\n${profile.instructions}` : ''}`;
+Write in ${name}'s voice — warm, professional, helpful. Address providers by name, use Dr. if applicable. Never use em dashes (—). Never use emojis. Plain text email format only.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()} — always follow these:\n${profile.instructions}` : ''}`;
 }
 
 function renderMarkdown(text) {

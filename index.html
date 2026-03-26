@@ -6,7 +6,6 @@
 <title>TechOps Email Assistant — LocumTenens.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -486,17 +485,88 @@
   </main>
 </div>
 
+<!-- ── KB RIGHT SIDEBAR (shown when assistant is docked alongside a case) ── -->
+<div id="kb-right-sidebar">
+  <div class="kb-rs-content">
+    <div>
+      <div class="sidebar-section-title">Knowledge Base</div>
+      <div class="cat-pills">
+        <button class="cat-pill" onclick="openKB('all')">
+          <span class="cat-icon">📚</span> Browse All Issues
+        </button>
+        <button class="cat-pill" onclick="openKB('login')">
+          <span class="cat-icon">🔒</span> Login &amp; Account
+        </button>
+        <button class="cat-pill" onclick="openKB('docs')">
+          <span class="cat-icon">📄</span> Documents
+        </button>
+        <button class="cat-pill" onclick="openKB('email')">
+          <span class="cat-icon">✉️</span> Email &amp; Invites
+        </button>
+        <button class="cat-pill" onclick="openKB('cred')">
+          <span class="cat-icon">📋</span> Credentialing
+        </button>
+        <button class="cat-pill" onclick="openKB('axuall')">
+          <span class="cat-icon">🪪</span> Axuall
+        </button>
+        <button class="cat-pill" onclick="openKB('mobile')">
+          <span class="cat-icon">📱</span> Mobile &amp; Browser
+        </button>
+        <button class="cat-pill" onclick="openKB('portal')">
+          <span class="cat-icon">🖥️</span> Portal &amp; Tabs
+        </button>
+      </div>
+    </div>
+    <div>
+      <div class="sidebar-section-title">Quick Issues</div>
+      <div class="phrase-chips">
+        <span class="phrase-chip" onclick="quickAsk('Authenticate your account / access credentialing')">Authenticate account</span>
+        <span class="phrase-chip" onclick="quickAsk('How to start credentialing application')">How to credential</span>
+        <span class="phrase-chip" onclick="quickAsk('Popup blocker preventing redirect to Axuall')">Popup blocker</span>
+        <span class="phrase-chip" onclick="quickAsk('Re-credentialing access')">Re-credentialing</span>
+        <span class="phrase-chip" onclick="quickAsk('Kimedics invite not received')">Kimedics invite</span>
+        <span class="phrase-chip" onclick="quickAsk('Provider cannot log in or reset password')">Login / password reset</span>
+        <span class="phrase-chip" onclick="quickAsk('Missing credentials tab in portal')">Missing credentials tab</span>
+        <span class="phrase-chip" onclick="quickAsk('Documents not syncing from Axuall to Salesforce')">Document sync delay</span>
+        <span class="phrase-chip" onclick="quickAsk('Axuall identity verification failed')">Identity verification</span>
+        <span class="phrase-chip" onclick="quickAsk('Timesheet forwarding request')">Timesheet forwarding</span>
+      </div>
+    </div>
+    <div style="margin-top:auto;">
+      <div class="sidebar-section-title">Escalation Contact</div>
+      <div class="escalation-card">
+        <h4>TechOps Helpdesk</h4>
+        <div class="esc-name">Kelly Thompson</div>
+        <a href="mailto:techopshelpdesk@locumtenens.com">techopshelpdesk@locumtenens.com</a>
+        <div class="esc-phone">877-732-7080</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── ASSISTANT CHAT ───────────────────────────────────────────────────── -->
 <div id="chat-panel" class="chat-panel">
   <div class="chat-panel-header" id="chat-drag-handle">
-    <div style="display:flex;align-items:center;gap:8px;">
-      <span style="font-size:15px;">✨</span>
-      <div>
+    <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1;">
+      <span style="font-size:15px;flex-shrink:0;">✨</span>
+      <div style="min-width:0;">
         <div style="font-weight:700;font-size:12px;color:#fff;">TechOps Assistant</div>
-        <div style="font-size:10px;color:rgba(255,255,255,.75);" id="chat-case-label">No case selected</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.75);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="chat-case-label">No case selected</div>
       </div>
     </div>
-    <button class="chat-close" onclick="toggleChat()">✕</button>
+    <div class="chat-header-actions">
+      <button class="chat-kb-toggle-btn" id="chat-kb-toggle-btn" onclick="toggleKBRightSidebar()">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        KB
+      </button>
+      <button class="chat-disconnect-btn" id="chat-disconnect-btn" onclick="toggleCaseDisconnect()">Disconnect</button>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+  </div>
+  <div class="chat-disconnect-state" id="chat-disconnect-state">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span>Disconnected — now in general mode</span>
+    <button class="chat-reconnect-link" onclick="toggleCaseDisconnect()">Reconnect to case</button>
   </div>
   <div class="chat-body">
     <div class="chat-messages" id="chat-messages">
@@ -510,8 +580,8 @@
       </div>
     </div>
     <div class="chat-input-row">
-      <input type="text" id="chat-input" class="chat-input" placeholder="Ask about this case…" disabled onkeydown="if(event.key==='Enter')sendChatMessage()">
-      <button class="chat-send-btn" disabled onclick="sendChatMessage()">
+      <input type="text" id="chat-input" class="chat-input" placeholder="Ask about this case…" disabled onkeydown="if(event.key==='Enter')handleChatSend()">
+      <button class="chat-send-btn" disabled onclick="handleChatSend()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
@@ -521,6 +591,143 @@
 <!-- Floating circle FAB -->
 <button class="chat-fab" id="chat-fab" onclick="toggleChat()" title="TechOps Assistant">✨</button>
 
+<script>
+/* ── Chat docked mode + case-context detection ────────────────────────
+   Runs after DOM ready; patches chat send to detect general vs case-
+   specific messages and manages the docked layout state.
+────────────────────────────────────────────────────────────────────── */
+(function () {
+  // Keywords that signal the user is asking about the open case
+  var CASE_KEYWORDS = [
+    'this case', 'this provider', 'their ', ' their', 'the issue',
+    'what should i', 'how do i handle', 'the customer', 'this customer',
+    'the email', 'this email', 'this person', 'the problem', 'fix this',
+    'resolve this', 'help with this', 'the ticket', 'this ticket'
+  ];
+
+  var chatCaseDisconnected = false;
+  window._nextMsgIsGeneral = false;
+
+  // Intercept send — detects case-specific vs general before calling app.js handler
+  window.handleChatSend = function () {
+    var input = document.getElementById('chat-input');
+    var text = input ? input.value.toLowerCase().trim() : '';
+    var caseLabel = document.getElementById('chat-case-label');
+    var caseLoaded = caseLabel && caseLabel.textContent && caseLabel.textContent !== 'No case selected';
+
+    if (!caseLoaded || chatCaseDisconnected) {
+      window._nextMsgIsGeneral = true;
+    } else {
+      var isCaseSpecific = text.length > 0 && CASE_KEYWORDS.some(function (kw) { return text.indexOf(kw) !== -1; });
+      window._nextMsgIsGeneral = (text.length > 0 && !isCaseSpecific);
+    }
+
+    if (typeof sendChatMessage === 'function') sendChatMessage();
+  };
+
+  // Toggle KB right sidebar
+  window.toggleKBRightSidebar = function () {
+    var sidebar = document.getElementById('kb-right-sidebar');
+    var btn = document.getElementById('chat-kb-toggle-btn');
+    if (!sidebar) return;
+    var opening = !sidebar.classList.contains('open');
+    sidebar.classList.toggle('open', opening);
+    if (btn) {
+      btn.classList.toggle('active', opening);
+      btn.innerHTML = opening
+        ? '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Hide KB'
+        : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> KB';
+    }
+  };
+
+  // Disconnect / reconnect assistant from case context
+  window.toggleCaseDisconnect = function () {
+    chatCaseDisconnected = !chatCaseDisconnected;
+    var btn = document.getElementById('chat-disconnect-btn');
+    var stateBar = document.getElementById('chat-disconnect-state');
+    if (chatCaseDisconnected) {
+      if (btn) { btn.textContent = 'Reconnect'; btn.classList.add('reconnect-mode'); }
+      if (stateBar) stateBar.classList.add('show');
+    } else {
+      if (btn) { btn.textContent = 'Disconnect'; btn.classList.remove('reconnect-mode'); }
+      if (stateBar) stateBar.classList.remove('show');
+    }
+  };
+
+  function resetDisconnectState() {
+    if (!chatCaseDisconnected) return;
+    chatCaseDisconnected = false;
+    var btn = document.getElementById('chat-disconnect-btn');
+    var stateBar = document.getElementById('chat-disconnect-state');
+    if (btn) { btn.textContent = 'Disconnect'; btn.classList.remove('reconnect-mode'); }
+    if (stateBar) stateBar.classList.remove('show');
+  }
+
+  // Determine whether to enter/exit docked mode
+  function updateDockState() {
+    var panel = document.getElementById('chat-panel');
+    var detailContent = document.getElementById('queue-detail-content');
+    var queueTab = document.getElementById('tab-queue');
+    var chatOpen = panel && panel.classList.contains('open');
+    var caseOpen = detailContent && detailContent.style.display === 'flex';
+    var onQueue = queueTab && queueTab.classList.contains('active');
+
+    if (chatOpen && caseOpen && onQueue) {
+      document.body.classList.add('chat-docked');
+    } else {
+      document.body.classList.remove('chat-docked');
+      // Close KB sidebar and reset disconnect when undocking
+      var sidebar = document.getElementById('kb-right-sidebar');
+      var kbBtn = document.getElementById('chat-kb-toggle-btn');
+      if (sidebar) sidebar.classList.remove('open');
+      if (kbBtn) {
+        kbBtn.classList.remove('active');
+        kbBtn.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> KB';
+      }
+      resetDisconnectState();
+    }
+  }
+
+  // Watch new bot messages to attach general-response indicator
+  function observeForGeneralIndicator() {
+    var chatMessages = document.getElementById('chat-messages');
+    if (!chatMessages) return;
+    new MutationObserver(function (mutations) {
+      if (!window._nextMsgIsGeneral) return;
+      for (var i = 0; i < mutations.length; i++) {
+        var added = mutations[i].addedNodes;
+        for (var j = 0; j < added.length; j++) {
+          var node = added[j];
+          if (node.nodeType !== 1) continue;
+          if (node.classList && node.classList.contains('chat-msg') && node.classList.contains('bot')) {
+            var bubble = node.querySelector('.chat-bubble');
+            // Only mark real responses, not the typing indicator (which has little/no text)
+            if (bubble && bubble.textContent.trim().length > 25) {
+              var indicator = document.createElement('div');
+              indicator.className = 'general-response-indicator';
+              indicator.textContent = 'General response — not case specific';
+              node.appendChild(indicator);
+              window._nextMsgIsGeneral = false;
+            }
+          }
+        }
+      }
+    }).observe(chatMessages, { childList: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var panel = document.getElementById('chat-panel');
+    var detailContent = document.getElementById('queue-detail-content');
+    var queueTab = document.getElementById('tab-queue');
+
+    if (panel) new MutationObserver(updateDockState).observe(panel, { attributes: true, attributeFilter: ['class'] });
+    if (detailContent) new MutationObserver(updateDockState).observe(detailContent, { attributes: true, attributeFilter: ['style'] });
+    if (queueTab) new MutationObserver(updateDockState).observe(queueTab, { attributes: true, attributeFilter: ['class'] });
+
+    observeForGeneralIndicator();
+  });
+})();
+</script>
 <script src="app.js"></script>
 </body>
 </html>
