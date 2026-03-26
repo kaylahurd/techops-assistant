@@ -1618,6 +1618,10 @@ Issue: Kimedics invitation sent (after dev team added approver)
 Incoming: "LT team can you confirm these timesheets have been sent to client?"
 Kayla reply: "Hi Chris! They just got back to me and let me know they were able to get that updated. I went ahead and sent over an invitation email to Sandy Brown. [Kimedics invite link] Let me know if you have any questions! Best, Kayla"
 
+Issue: Credentialing application now in Salesforce (sync resolved update)
+Incoming: follow-up on a sync ticket for Chidozie Chimoeze
+Kayla reply: "Hi Lucie! As an update, Chidozie Chimezies credentialing application is now in SF. Let me know if you have any questions! Best, Kayla"
+
 --- ALEJANDRO ---
 
 Issue: Kimedics invitation (new timesheet approver)
@@ -1627,6 +1631,14 @@ Alejandro reply: "Hi Will, Happy Friday. I hope you're having a great day! I've 
 Issue: Kimedics email address corrected
 Incoming: "We had an incorrect email for her, it is actually Brooke Crisp, brooke.crisp@tn.gov. She was able to get in and create an account, but the validation email is not coming through for her. Can we try and resend or update her email in the system?"
 Alejandro reply: "Hi Will, I hope you're doing well today! No problem; it happens. I have updated her email on Kimedics, so she should now be able to receive the validation email. I hope this helps! Regards, Alejandro Guerrero"
+
+Issue: Credentialing tab visibility / Portal Invite Sent By field missing
+Incoming: "Hi, I'm reaching out because one of our providers, Elizabeth Moll, is stating that she is not seeing the Credentialing tab when she logs in."
+Alejandro reply: "Hi Stefanie, After reviewing the account, it appears that the Credentialing tab is now available for the provider. I did notice that the 'Portal Invite Sent By' field is missing in Salesforce. It may be worth populating that field, as it ensures a proper connection between the provider and the Clinician Portal. Alternatively, resending the invitation should correct that as well. Please let us know if the provider continues to experience any problems. I hope you both have a great weekend ahead! Regards, Alejandro Guerrero"
+
+Issue: Application Started resolved — docs and app synced after review
+Incoming: "Hi, This provider applied but it still shows Application Started and we don't see her documents — can you check?"
+Alejandro reply: "Good morning Stefanie and Nancy, I hope you're doing well this morning! After reviewing Dr. Kuckelman's account, I noticed that the credentialing application and other documents have successfully synced. Is there anything specific that you find missing? If so, let us know, and we can coordinate with the development team to ensure it gets transferred over. Regards, Alejandro Guerrero"
 
 --- BECKY ---
 
@@ -1652,6 +1664,10 @@ Issue: Kimedics approver not receiving invite
 Incoming: "This same client is having another issue stating they have not received the link to approve our providers time sheet. Is there any way to look into this?"
 Becky reply: "Hi Garen, Other than BKG-1154376, can you let me know what other bookings to look into? Additionally, what is the timesheet approver's name? I can look into this! Thanks, Becky"
 
+Issue: Provider called in directly — LTOE invite sent while recruiter follows up
+Incoming: provider (Heather Anderson) called the shared line looking for next steps; recruiter Audrey hadn't yet followed up
+Becky reply: "Hi Audrey! I received a call from Heather Anderson just now. She mentioned that she is interested in working with us but has not yet heard back from an associate regarding next steps. I wanted to let you know in case you'd like to follow up directly with her. In the meantime, I also sent her an invitation to the Online Experience so she can begin exploring the platform. Please let me know what you'd prefer. Thank you, Becky"
+
 --- NOAH ---
 
 Issue: LTOE locked account / forgot password (initial response)
@@ -1668,6 +1684,14 @@ Noah reply: "Good afternoon, I hope the day is going well! It looks like Dr. Bat
 Issue: Resolved — IT/laptop/computer issue (update to recruiter)
 Incoming: "Please see message below from Dr. Fredrick — laptop not working, OneDrive license issue."
 Noah reply: "Hey Clint, As another update, Dr. Fredrick is good to go. I was able to assist her with getting her computer back on and ensuring that she can download her files properly. Best regards, Noah C."
+
+Issue: LTOE username / why resending invite doesn't update email
+Incoming: "The provider's email changed and we resent the invite but she says she's still not getting it at the new address."
+Noah reply: "Good morning Abigail, I hope your day is going well! This is happening because once an LTOE invitation is sent, the email address used becomes the provider's LTOE username. After the username is set, updating the contact email and resending the invitation will not be sent to the new address. To update the LTOE username to a different email after an invite has already been sent, LT Helpdesk will need to assist. I've included them on this email to help with that update. I hope this explanation was helpful! Best regards, Noah C."
+
+Issue: Directing to TechOps email + LTOE username update via LT Helpdesk
+Incoming: provider or recruiter reaching out directly to Noah's personal email for help
+Noah reply: "Good afternoon, Happy Friday! To reach the TechOps team, please use techopshelpdesk@locumtenens.com. Additionally, to update the LTOE Username, @LT Helpdesk will be able to assist! I've included them here. Best regards, Noah C."
 
 CURRENT QUEUE:
 ${queueList}
