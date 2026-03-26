@@ -254,9 +254,9 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; }
 
 .sidebar-toggle-wrap { display: flex; justify-content: flex-end; margin-bottom: 2px; flex-shrink: 0; }
 .layout.sidebar-collapsed .sidebar-toggle-wrap { justify-content: center; }
-/* Hide KB and Quick Issues panels when on Queue tab */
-body.on-queue .sidebar-kb-section,
-body.on-queue .sidebar-phrases-section { display: none; }
+/* Hide entire sidebar when on Queue tab */
+body.on-queue .layout { grid-template-columns: 0 1fr; }
+body.on-queue .sidebar { display: none; }
 .sidebar-toggle-btn {
   background: none; border: 1px solid var(--border-2); border-radius: var(--radius-sm);
   width: 26px; height: 26px; cursor: pointer;
@@ -844,6 +844,40 @@ body.on-assistant .main { padding-top: 6px; padding-bottom: 0; overflow: hidden;
 .te-date { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); }
 .te-body { display: block; padding: 10px 12px; font-size: 13px; line-height: 1.65; color: var(--text); white-space: pre-wrap; max-height: 160px; overflow-y: auto; }
 .thread-email { flex-shrink: 0; }
+
+/* Branch selection prompt — shown before reply generates when issue has conditional paths */
+.compose-branch-prompt {
+  background: var(--info-bg); border: 1px solid var(--info-border);
+  border-radius: var(--radius-sm); padding: 13px 14px; margin-bottom: 12px;
+}
+.compose-branch-label {
+  font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600;
+  color: var(--info-text); margin-bottom: 10px;
+}
+.compose-branch-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.compose-branch-btn {
+  padding: 7px 14px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--lt-blue); background: var(--card);
+  color: var(--lt-blue); font-size: 12.5px; font-weight: 500;
+  cursor: pointer; font-family: 'Inter', sans-serif; transition: all .13s;
+}
+.compose-branch-btn:hover { background: var(--lt-blue); color: #fff; }
+/* Branch prompt in assistant chat messages */
+.asst-branch-prompt {
+  background: var(--info-bg); border: 1px solid var(--info-border);
+  border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 8px;
+}
+.asst-branch-label {
+  font-size: 12.5px; font-weight: 600; color: var(--info-text); margin-bottom: 9px;
+}
+.asst-branch-options { display: flex; gap: 7px; flex-wrap: wrap; }
+.asst-branch-btn {
+  padding: 6px 13px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--lt-blue); background: var(--card);
+  color: var(--lt-blue); font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: 'Inter', sans-serif; transition: all .13s;
+}
+.asst-branch-btn:hover { background: var(--lt-blue); color: #fff; }
 
 /* Compose section */
 .compose-section { border-top: 1px solid var(--border); padding: 13px 16px; background: var(--bg); flex-shrink: 0; }

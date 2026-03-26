@@ -18,7 +18,7 @@ const ISSUES = [
 
 Thank you for reaching out! Here are a few steps to help resolve the issue with opening or uploading documents:
 
-1. Try using Google Chrome — this resolves most upload and access issues.
+1. Try using Google Chrome, as it resolves most upload and access issues.
 2. Clear your browser cache and try again.
 3. If you are connected to a VPN, please disconnect temporarily and retry the upload.
 4. Try from a different device or network if the issue continues.
@@ -44,7 +44,7 @@ If you are still experiencing issues after trying these steps, please reply and 
       "ltoe invite", "portal invite", "not getting portal", "no portal email"
     ],
     email: {
-      subject: "Action Required – Check Spam Folder for LocumTenens Emails",
+      subject: "Action Required: Check Spam Folder for LocumTenens Emails",
       body: `Hi [Provider Name],
 
 Thank you for reaching out! If you are not receiving emails from us, please take the following steps:
@@ -76,7 +76,7 @@ Please don't hesitate to reach out if you have any questions!
       subject: "Next Steps to Begin Your Credentialing Application",
       body: `Hi [Provider Name],
 
-Thank you for completing your account verification! Just to clarify — the invite you received was to verify your account only. It does not start your credentialing application.
+Thank you for completing your account verification! Just to clarify: the invite you received was to verify your account only. It does not start your credentialing application.
 
 To begin your credentialing application, please follow these steps:
 
@@ -102,10 +102,10 @@ Please don't hesitate to reach out if you have any questions!
       "broken message", "oh no", "definitely broken", "error message phone"
     ],
     email: {
-      subject: "Action Required – Use This Link to Access Credentialing on Mobile",
+      subject: "Action Required: Use This Link to Access Credentialing on Mobile",
       body: `Hi [Provider Name],
 
-Thank you for reaching out! If you are seeing an error message on your phone while trying to access your credentialing application, this is a known compatibility issue with mobile browsers — nothing is actually wrong with your account.
+Thank you for reaching out! If you are seeing an error message on your phone while trying to access your credentialing application, this is a known compatibility issue with mobile browsers.
 
 To access your credentialing application on a mobile device, please use this direct link:
 https://portal.locumtenens.com/#/credentials/overview
@@ -131,7 +131,7 @@ Please don't hesitate to reach out if you need further assistance!
       "wrong username", "incorrect username", "cant access account", "locked out of account"
     ],
     email: {
-      subject: "Action Required – Reset Your Password to Regain Access",
+      subject: "Action Required: Reset Your Password to Regain Access",
       body: `Hi [Provider Name],
 
 Thank you for reaching out! Here is how to reset your password and regain access to your account:
@@ -206,7 +206,7 @@ Thank you for reaching out! Here are the steps to access your credentialing appl
 5. You will see a prompt to verify your NPI and click Get Started, or click "Authenticate your account."
 6. You will then be automatically redirected to your credentialing application in Axuall.
 
-If the redirect does not happen after clicking, it is most likely due to pop-up blockers — especially in Safari on Mac, iPhone, and iPad. To resolve this:
+If the redirect does not happen after clicking, it is most likely due to pop-up blockers, especially in Safari on Mac, iPhone, and iPad. To resolve this:
 
 - We recommend switching to Google Chrome for the best experience.
 - If you prefer Safari, you can disable the pop-up blocker to allow the redirect:
@@ -245,7 +245,7 @@ Please don't hesitate to reach out if you have any questions!
       "safari", "safari blocked", "safari popup"
     ],
     email: {
-      subject: "Action Required – Enable Popups to Access Your Credentialing Application",
+      subject: "Action Required: Enable Popups to Access Your Credentialing Application",
       body: `Hi [Provider Name],
 
 Thank you for reaching out! If the redirect to your credentialing application isn't happening, it's likely due to pop-up blockers in browsers like Safari on Mac, iPhone, and iPad.
@@ -286,7 +286,7 @@ Thank you for reaching out! Here are the steps to begin your re-credentialing ap
 5. Click "Start my re-credentialing application."
 6. You will be automatically redirected to your re-credentialing application in Axuall.
 
-If the redirect does not happen, it is most likely due to pop-up blockers — especially in Safari on Mac, iPhone, and iPad. To resolve this:
+If the redirect does not happen, it is most likely due to pop-up blockers, especially in Safari on Mac, iPhone, and iPad. To resolve this:
 
 - We recommend switching to Google Chrome for the best experience.
 - If you prefer Safari, you can disable the pop-up blocker:
@@ -319,7 +319,7 @@ Please don't hesitate to reach out if you have any questions!
       "wrong dob", "wrong ssn", "cant proceed identity", "keeps looping", "looping back"
     ],
     email: {
-      subject: "Action Required – Contact Axuall Support for Identity Verification",
+      subject: "Action Required: Contact Axuall Support for Identity Verification",
       body: `Hi [Provider Name],
 
 Thank you for reaching out! We understand you are experiencing an issue with the identity verification step in your credentialing application.
@@ -415,17 +415,20 @@ Please review and complete any remaining fields in your application. If primary 
       "axuall to salesforce", "salesforce not updated", "documents missing salesforce",
       "not transferred", "documents havent synced"
     ],
-    email: {
-      subject: "Update on Your Credentialing Documents",
-      body: `Hi [Provider Name],
-
-Thank you for your patience! Credentialing documents can take up to 24 hours to sync after submission. This is a normal part of the process and no action is required on your end at this time.
-
-Please check back after the 24-hour window. If your documents are still not appearing, please reply to this email and we will investigate right away.
-
-Thank you again for your patience!
-
-[Your Name]`
+    branches: [
+      { key: 'under24', label: 'It has NOT been 24 hours yet' },
+      { key: 'over24', label: 'It HAS been 24 hours and it still is not showing' }
+    ],
+    emailBranches: {
+      under24: {
+        subject: "Update on Your Credentialing Documents",
+        body: `Hi [Provider Name]! Thanks for reaching out! Credentialing documents can take up to 24 hours to sync from Axuall to Salesforce after the application is completed. Since it has not been 24 hours yet, we recommend checking back tomorrow. Let us know if it still has not appeared by then and we will look into it further!\nBest,\n[Your Name]`
+      },
+      over24: {
+        subject: "Update on Your Credentialing Documents",
+        body: `Hi [Provider Name]! Thanks for flagging this! Since it has been more than 24 hours and the documents are still not appearing, we are going to escalate this to our development team to investigate. We will follow up as soon as we hear back!\nBest,\n[Your Name]`,
+        escalationNote: `[Provider name] reported that credentialing documents are not syncing to Salesforce after more than 24 hours. Sent confirmation email. Escalating to dev team to investigate. Will update once we hear back.`
+      }
     }
   },
   {
@@ -441,24 +444,26 @@ Thank you again for your patience!
       "completed but still showing", "application status wrong",
       "status not changing", "finished but says started", "application status stuck"
     ],
-    email: {
-      subject: "Update on Your Credentialing Application Status",
-      body: `Hi [Provider Name],
-
-Thank you for reaching out! If your application status still shows as "Application Started" or "Application Sent," please confirm that you have fully submitted your application in Axuall — not just started it.
-
-If you have fully submitted your application and the status has not updated after 24 hours, please reply to this email with a screenshot of what you are currently seeing and we will look into it right away.
-
-Thank you for your patience!
-
-[Your Name]`
+    branches: [
+      { key: 'notSubmitted', label: 'Provider has NOT fully submitted the application yet' },
+      { key: 'submitted24h', label: 'Provider HAS fully submitted and it has been 24+ hours' }
+    ],
+    emailBranches: {
+      notSubmitted: {
+        subject: "Action Required: Complete Your Credentialing Application",
+        body: `Hi [Provider Name]! Thanks for reaching out! If your status still shows "Application Started" or "Application Sent," it usually means the application has not been fully submitted in Axuall yet. Please log in to Axuall and make sure you have clicked the final submit button to complete the application. Let us know if you need any help finding it!\nBest,\n[Your Name]`
+      },
+      submitted24h: {
+        subject: "Update on Your Credentialing Application Status",
+        body: `Hi [Provider Name]! Thanks for following up! Since you have fully submitted your application and the status has not updated after 24 hours, please reply with a screenshot of what you are currently seeing and we will look into it right away.\nBest,\n[Your Name]`
+      }
     }
   }
 ];
 
 // Generic no-match template
 const GENERIC_EMAIL = {
-  subject: "We Received Your Message — TechOps Support",
+  subject: "We Received Your Message",
   body: `Hi [Provider Name],
 
 Thank you for reaching out to LocumTenens.com TechOps support!
@@ -508,7 +513,7 @@ const ISSUE_CASUAL = {
   14: "their application status not updating correctly"
 };
 const ISSUE_DETAIL = {
-  1:  "The upload kept failing — most likely due to their VPN or browser restrictions.",
+  1:  "The upload kept failing, most likely due to their VPN or browser restrictions.",
   2:  "Emails were likely going to their Spam or Junk folder.",
   3:  "They thought they were fully credentialed but hadn't completed the verification step.",
   4:  "They may have opened the invite link but not finished creating their account.",
@@ -518,9 +523,9 @@ const ISSUE_DETAIL = {
   8:  "They couldn't find the Credentials tab or got stuck partway through the application.",
   9:  "They didn't realize they needed to start re-credentialing through the portal.",
   10: "There was a name or date of birth mismatch with their government ID.",
-  11: "Documents uploaded to the Document Library don't feed into the credentialing application — they're separate.",
+  11: "Documents uploaded to the Document Library don't feed into the credentialing application. They are separate.",
   12: "Some fields auto-populate after identity verification, but others always require manual entry.",
-  13: "This is a normal sync delay — documents can take up to 24 hours to appear in Salesforce after submission.",
+  13: "Documents can take up to 24 hours to appear in Salesforce after submission.",
   14: "The status reflects the last action recorded, not necessarily that the application is incomplete."
 };
 const ISSUE_ACTION = {
@@ -536,8 +541,8 @@ const ISSUE_ACTION = {
   10: "let them know Axuall Support handles identity verification and gave them the contact number",
   11: "explained how the Document Library works and when it becomes accessible",
   12: "explained which fields auto-populate vs. which need to be entered manually",
-  13: "let them know this is a normal sync delay and to check back after 24 hours",
-  14: "explained what the status means and what to do if it doesn't update after completing the application"
+  13: "reviewed the document sync issue and sent the appropriate next steps",
+  14: "reviewed the application status issue and sent the appropriate next steps"
 };
 
 // ── MOCK QUEUE DATA ────────────────────────────────────────────────────────
@@ -1207,6 +1212,27 @@ function analyzeAndReplyFallback(caseId, c) {
   const allText = c.thread.map(m => m.body).join('\n\n');
   const matches = detectIssues(allText);
   const issue = matches.length > 0 ? matches[0].issue : null;
+
+  // If this issue requires a branch selection, show prompt instead of auto-drafting
+  if (issue && issue.branches) {
+    const outputEl = document.getElementById(`compose-output-${caseId}`);
+    outputEl.classList.add('show');
+    const draftEl = document.getElementById(`compose-draft-${caseId}`);
+    const footerEl = outputEl.querySelector('.compose-footer');
+    draftEl.style.display = 'none';
+    if (footerEl) footerEl.style.display = 'none';
+    const subjectEl = document.getElementById(`compose-subject-${caseId}`);
+    subjectEl.innerHTML = '';
+    const branchHtml = `<div class="compose-branch-prompt" id="compose-branch-prompt-${caseId}">
+      <div class="compose-branch-label">Before generating a reply, please confirm:</div>
+      <div class="compose-branch-options">
+        ${issue.branches.map(b => `<button class="compose-branch-btn" onclick="applyBranch('${caseId}', ${issue.id}, '${b.key}')">${b.label}</button>`).join('')}
+      </div>
+    </div>`;
+    subjectEl.insertAdjacentHTML('afterend', branchHtml);
+    return;
+  }
+
   const email = issue ? issue.email : GENERIC_EMAIL;
   const senderName = lastProviderMsg ? (lastProviderMsg.from.split(' ')[0] === 'Dr.' ? lastProviderMsg.from.split(' ')[1] : lastProviderMsg.from.split(' ')[0]) : null;
   const day = new Date().toLocaleDateString('en-US', { weekday: 'long' });
@@ -1218,10 +1244,14 @@ function analyzeAndReplyFallback(caseId, c) {
     .replace('Happy [Day]!', dayOpener)
     .replace('[Day]', day);
   draft = draft.replace(/\n{2,}/g, '\n');
+  const profile = getStyleProfile(currentUser ? currentUser.name : 'Kayla');
+  const profileHasDash = Object.values(profile).some(v => typeof v === 'string' && /[–—]/.test(v));
+  if (!profileHasDash) {
+    draft = draft.replace(/\s*[–—]\s*/g, ', ');
+  }
   document.getElementById(`compose-subject-${caseId}`).innerHTML = `<span style="font-weight:700;color:var(--info-text);">Subject: </span><em>${email.subject}</em>`;
   document.getElementById(`compose-draft-${caseId}`).value = draft;
   document.getElementById(`compose-output-${caseId}`).classList.add('show');
-  const profile = getStyleProfile(currentUser ? currentUser.name : 'Kayla');
   const issueId = issue ? issue.id : null;
   const internalSender = c.thread.find(m => m.role === 'internal');
   const internalName = internalSender ? internalSender.from.split(' (')[0] : null;
@@ -1234,6 +1264,53 @@ function analyzeAndReplyFallback(caseId, c) {
   const closingEl = document.getElementById(`compose-closing-${caseId}`);
   document.getElementById(`compose-closing-text-${caseId}`).textContent = ' ' + closing;
   closingEl.classList.add('show');
+}
+
+function applyBranch(caseId, issueId, branchKey) {
+  const issue = ISSUES.find(i => i.id === issueId);
+  if (!issue || !issue.emailBranches) return;
+  const branch = issue.emailBranches[branchKey];
+  if (!branch) return;
+
+  // Remove branch prompt, restore textarea and footer
+  const prompt = document.getElementById(`compose-branch-prompt-${caseId}`);
+  if (prompt) prompt.remove();
+  const outputEl = document.getElementById(`compose-output-${caseId}`);
+  const draftEl = document.getElementById(`compose-draft-${caseId}`);
+  const footerEl = outputEl.querySelector('.compose-footer');
+  draftEl.style.display = '';
+  if (footerEl) footerEl.style.display = '';
+
+  // Fill subject and draft
+  document.getElementById(`compose-subject-${caseId}`).innerHTML = `<span style="font-weight:700;color:var(--info-text);">Subject: </span><em>${branch.subject}</em>`;
+  const c = MOCK_QUEUE.find(q => q.id === caseId);
+  const lastProviderMsg = c ? [...c.thread].reverse().find(m => m.role !== 'techops') : null;
+  const senderName = lastProviderMsg ? (lastProviderMsg.from.split(' ')[0] === 'Dr.' ? lastProviderMsg.from.split(' ')[1] : lastProviderMsg.from.split(' ')[0]) : null;
+  let draft = branch.body
+    .replace(/\[Provider Name\]/g, senderName || '[Provider Name]')
+    .replace(/\[Name\]/g, senderName || '[Name]');
+  draft = draft.replace(/\n{2,}/g, '\n');
+  draftEl.value = draft;
+
+  const closingEl = document.getElementById(`compose-closing-${caseId}`);
+  const closingTextEl = document.getElementById(`compose-closing-text-${caseId}`);
+  if (branch.escalationNote) {
+    closingTextEl.textContent = ' ' + branch.escalationNote;
+    closingEl.classList.add('show');
+  } else {
+    const profile = getStyleProfile(currentUser ? currentUser.name : 'Kayla');
+    const internalSender = c ? c.thread.find(m => m.role === 'internal') : null;
+    const internalName = internalSender ? internalSender.from.split(' (')[0] : null;
+    const providerName = c ? c.provider : '[Provider]';
+    let closing = internalName
+      ? `${internalName} reached out because ${providerName} was having trouble with ${ISSUE_CASUAL[issueId] || 'something'}.`
+      : `${providerName} reached out because they were having trouble with ${ISSUE_CASUAL[issueId] || 'something'}.`;
+    if (ISSUE_DETAIL[issueId]) closing += ` ${ISSUE_DETAIL[issueId]}`;
+    closing += ` I ${ISSUE_ACTION[issueId] || 'reviewed the issue and sent over next steps'}.`;
+    closing += ` ${capitalize(profile['sent'])}`;
+    closingTextEl.textContent = ' ' + closing;
+    closingEl.classList.add('show');
+  }
 }
 
 async function analyzeAndReply(caseId) {
@@ -1517,7 +1594,7 @@ CURRENT QUEUE:
 ${queueList}
 
 KEY FACTS:
-- Support line: 877-732-7080 (Mon–Fri 8:30 AM–5:30 PM EST)
+- Support line: 877-732-7080 (Monday through Friday, 8:30 AM to 5:30 PM EST)
 - TechOps email: techopshelpdesk@locumtenens.com
 - System emails from: LT_OnlineServices@locumtenens.com
 
@@ -1537,9 +1614,9 @@ AXUALL IDENTITY VERIFICATION FAILURE: Provider must call Axuall Support at 888-2
 
 AXUALL PRE-POPULATION: Auto-fills licenses, certs, basic demographics after identity verification. Must be manual: personal contact info, attestation questions, narrative fields, employment history.
 
-DOCUMENT SYNC: Takes up to 24 hours to sync from Axuall to SF. Normal — don't open a ticket.
+DOCUMENT SYNC: Takes up to 24 hours to sync from Axuall to SF. Normal. Do not open a ticket.
 
-MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue, nothing wrong with account. Direct mobile link: https://portal.locumtenens.com/#/credentials/overview. Recommend desktop when possible.
+MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue. Direct mobile link: https://portal.locumtenens.com/#/credentials/overview. Recommend desktop when possible.
 
 JH IT SUPPORT: http://dna.jacksonhealthcare.com → Fix an IT Problem. Immediate help: 770-643-5602.
 
@@ -1563,7 +1640,7 @@ RESPONSE FORMAT — always follow this structure:
 
 PROVIDER NAME: If you can identify the provider's name from the input, use it in the email greeting. If not, use "Hi!" as the greeting.
 
-Write in ${name}'s voice — warm, professional, helpful. Address providers by name, use Dr. if applicable. Never use em dashes (—). Never use emojis. Plain text email format only.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()} — always follow these:\n${profile.instructions}` : ''}`;
+Write in ${name}'s voice: warm, professional, helpful. Address providers by name, use Dr. if applicable. Never use em dashes (—). Never use emojis. Plain text email format only.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()} — always follow these:\n${profile.instructions}` : ''}`;
 }
 
 function renderMarkdown(text) {
@@ -1688,7 +1765,24 @@ async function sendAssistantMessage() {
   } catch (err) {
     document.getElementById(typingId)?.remove();
     // Fallback to keyword matching
-    const { reply, detailHtml, emailDraft } = buildAssistantReply(text);
+    const result = buildAssistantReply(text);
+    if (result.needsBranch) {
+      const { issue } = result;
+      const promptId = 'asst-branch-' + Date.now();
+      const branchHtml = `<div class="asst-msg bot" id="${promptId}">
+        <div class="asst-bubble">Found a match for <strong>${issue.icon || '🔧'} ${issue.title}</strong>. Before generating a reply, please confirm:</div>
+        <div class="asst-branch-prompt">
+          <div class="asst-branch-label">Select the situation that applies:</div>
+          <div class="asst-branch-options">
+            ${issue.branches.map(b => `<button class="asst-branch-btn" onclick="selectBranchInChat(this.closest('.asst-branch-prompt'), ${issue.id}, '${b.key}')">${b.label}</button>`).join('')}
+          </div>
+        </div>
+      </div>`;
+      msgs.innerHTML += branchHtml;
+      msgs.scrollTop = msgs.scrollHeight;
+      return;
+    }
+    const { reply, detailHtml, emailDraft } = result;
     const msgId = 'asst-msg-' + Date.now();
     const replyText = reply.replace(/<[^>]+>/g, '');
     const emailAttr = emailDraft ? ` data-email="${emailDraft.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"` : '';
@@ -1709,6 +1803,45 @@ async function sendAssistantMessage() {
   }
 }
 
+function selectBranchInChat(promptEl, issueId, branchKey) {
+  const issue = ISSUES.find(i => i.id === issueId);
+  if (!issue || !issue.emailBranches) return;
+  const branch = issue.emailBranches[branchKey];
+  if (!branch) return;
+  const emailBody = branch.body;
+  let html = `<div class="asst-detail-card">
+    <div class="asst-detail-card-header">
+      <span style="font-size:14px;">${issue.icon || '🔧'}</span>
+      <div class="asst-detail-card-label">${issue.title}</div>
+      <button class="btn btn-copy btn-sm" style="margin-left:auto;" data-copy="${emailBody.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" onclick="copyDetailCard(this)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+    <div class="asst-detail-card-body">
+      <pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${emailBody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+    </div>
+  </div>`;
+  if (branch.escalationNote) {
+    const note = branch.escalationNote;
+    html += `<div class="asst-detail-card" style="margin-top:8px;">
+      <div class="asst-detail-card-header">
+        <span style="font-size:14px;">📝</span>
+        <div class="asst-detail-card-label">Internal Escalation Note</div>
+        <button class="btn btn-copy btn-sm" style="margin-left:auto;" data-copy="${note.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" onclick="copyDetailCard(this)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+      <div class="asst-detail-card-body">
+        <p style="font-size:13px;line-height:1.7;margin:0;color:var(--muted);">${note.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+      </div>
+    </div>`;
+  }
+  const fragment = document.createRange().createContextualFragment(html);
+  promptEl.replaceWith(fragment);
+}
+
 function buildAssistantReply(text) {
   const lower = text.toLowerCase();
 
@@ -1716,7 +1849,7 @@ function buildAssistantReply(text) {
   if (/follow.?up|no reply|hasn.t replied|haven.t heard/i.test(lower)) {
     const name = chatCaseId ? (MOCK_QUEUE.find(q => q.id === chatCaseId) || {}).provider || '[Name]' : '[Name]';
     const first = name.split(' ')[0];
-    const draft = `Hi ${first},\n\nJust wanted to follow up on my previous message. Were you able to give it a try? Let me know if you're still running into any trouble — happy to help!\n\nBest,\nKayla`;
+    const draft = `Hi ${first},\n\nJust wanted to follow up on my previous message. Were you able to give it a try? Let us know if you are still running into any trouble, we are happy to help!\n\nBest,\nKayla`;
     return {
       reply: `Here's a follow-up draft based on ${chatCaseId ? `case ${chatCaseId}` : 'a generic template'}. Edit and send when ready.`,
       detailHtml: buildDetailCard('✉️', 'Follow-Up Draft', `<pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${draft}</pre>`, draft),
@@ -1728,7 +1861,7 @@ function buildAssistantReply(text) {
   if (/closing summary|sf post|salesforce post|close.*case|case.*close/i.test(lower)) {
     const fmt = `Issue: [brief description]\nSteps taken: [what you did]\nOutcome: Resolved / Sent instructions / Escalated\nNotes: [anything useful for next person]`;
     return {
-      reply: `Paste the closing summary into the <strong>Post tab</strong> in Salesforce — not the Email tab. Keep it 2–4 lines.`,
+      reply: `Paste the closing summary into the <strong>Post tab</strong> in Salesforce, not the Email tab. Keep it 2 to 4 lines.`,
       detailHtml: buildDetailCard('📝', 'SF Closing Summary Format', `<pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${fmt}</pre>`, fmt)
     };
   }
@@ -1789,6 +1922,9 @@ function buildAssistantReply(text) {
 }
 
 function issueResult(issue) {
+  if (issue.branches) {
+    return { needsBranch: true, issue };
+  }
   const shortDesc = issue.description || '';
   let stepsHtml = '';
   if (issue.email && issue.email.steps && issue.email.steps.length) {
@@ -1873,7 +2009,7 @@ ISSUES.push({
   ],
   email: {
     subject: "Re: Kimedics Invitation",
-    body: `Hi [Name]! Happy [Day]! I've sent an invitation email to [Provider Name]. If they don't see it in their inbox, I'd recommend checking their Spam/Junk folder — the message will come from portal@kimedics.com. It may also help to make sure emails from Kimedics aren't being blocked by their IT team. In the meantime, here's a direct link [Provider Name] can use to create their account if the email doesn't come through: [Kimedics invite link]. I hope this helps! Let us know if you need anything further.
+    body: `Hi [Name]! Happy [Day]! I've sent an invitation email to [Provider Name]. If they don't see it in their inbox, I'd recommend checking their Spam/Junk folder. The message will come from portal@kimedics.com. It may also help to make sure emails from Kimedics aren't being blocked by their IT team. In the meantime, here's a direct link [Provider Name] can use to create their account if the email doesn't come through: [Kimedics invite link]. I hope this helps! Let us know if you need anything further.
 Best,
 [Your Name]`
   }
@@ -1896,7 +2032,7 @@ ISSUES.push({
     "uploaded already", "already uploaded", "documents dont show", "documents not visible"
   ],
   email: {
-    subject: "Action Required – Complete Your Credentialing Application in Axuall",
+    subject: "Action Required: Complete Your Credentialing Application in Axuall",
     body: `Hi [Provider Name],
 
 Thank you for reaching out! It looks like the documents may have been uploaded to the Document Library rather than directly through the credentialing application in Axuall.
@@ -1920,7 +2056,7 @@ Please don't hesitate to reach out if you have any questions!
   }
 });
 ISSUE_CASUAL[16]  = "accidentally uploading documents to the Document Library instead of Axuall";
-ISSUE_DETAIL[16]  = "The Document Library is for post-credentialing documents only — documents uploaded there before completing the application won't appear in Axuall.";
+ISSUE_DETAIL[16]  = "The Document Library is for post-credentialing documents only. Documents uploaded there before completing the application will not appear in Axuall.";
 ISSUE_ACTION[16]  = "clarified the difference between the Document Library and the credentialing application and sent next steps";
 
 // ── ISSUE #17: JH IT SUPPORT ───────────────────────────────────────────────
@@ -2014,10 +2150,10 @@ ISSUES.push({
 I hope you're having a great day! We are so sorry to hear you are having trouble. If you don't mind sharing any screenshots or pictures of the issue you are seeing, that would best help us troubleshoot the problem.
 
 In the meantime, if you need immediate assistance, you can reach us at:
-- Phone: 877-732-7080 (Monday–Friday, 8:30 AM – 5:30 PM EST)
+- Phone: 877-732-7080 (Monday through Friday, 8:30 AM to 5:30 PM EST)
 - Or reply with a day and time that works best for you and we will be happy to reach out!
 
-If you have any questions, feel free to reach out — we are happy to help!
+If you have any questions, feel free to reach out, we are happy to help!
 
 [Your Name]`
   }
@@ -2044,7 +2180,7 @@ ISSUES.push({
 
 I hope you're having a great day!
 
-I've sent an invitation email to [Provider Name]'s timesheet recipient. If you don't see it in your inbox, please check your Spam/Junk folder — the message will come from portal@kimedics.com. It may also help to ensure that emails from Kimedics aren't being blocked by your IT team.
+I've sent an invitation email to [Provider Name]'s timesheet recipient. If you do not see it in your inbox, please check your Spam/Junk folder. The message will come from portal@kimedics.com. It may also help to ensure that emails from Kimedics aren't being blocked by your IT team.
 
 In the meantime, here's a direct link you can use to create your account if the email doesn't come through:
 
