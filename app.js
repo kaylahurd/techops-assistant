@@ -720,7 +720,7 @@ Thanks,
 Greyson`
       },
       {
-        from: "Noah C. (TechOps)", role: "techops", email: "noah@locumtenens.com",
+        from: "Noah C. (TechOps)", role: "techops", email: "noah.coarde@locumtenens.com",
         date: "Mar 16 · 2:45 PM",
         body: `Hi Greyson,
 
@@ -759,7 +759,7 @@ Thanks,
 Meghan`
       },
       {
-        from: "Noah C. (TechOps)", role: "techops", email: "noah@locumtenens.com",
+        from: "Noah C. (TechOps)", role: "techops", email: "noah.coarde@locumtenens.com",
         date: "Mar 20 · 11:45 AM",
         body: `Hi Meghan,
 
@@ -858,7 +858,7 @@ Thanks,
 Allison`
       },
       {
-        from: "Noah C. (TechOps)", role: "techops", email: "noah@locumtenens.com",
+        from: "Noah C. (TechOps)", role: "techops", email: "noah.coarde@locumtenens.com",
         date: "Mar 18 · 11:10 AM",
         body: `Hi Allison,
 
@@ -1598,6 +1598,76 @@ ${caseContext}
 KNOWLEDGE BASE:
 ${kbList}
 ${teamKB ? `\nTEAM EMAIL PATTERNS (real examples of how each agent responds — use these to match tone, routing, and phrasing per person):\n${teamKB}` : ''}
+
+VERBATIM STYLE EXAMPLES — real emails pulled from the shared mailbox. When generating a reply for a specific agent, match their exact tone, greeting style, sentence structure, and sign-off from these examples. These override generic phrasing.
+
+--- KAYLA ---
+
+Issue: Axuall not syncing to Salesforce
+Incoming: "Dr. Eric J Gardner shared his credentialing application in Axuall on Monday, March 23rd at 7:49pm, but it has not carried over to Salesforce. Provider External Id 11445248. He is due to start on 4/6/26, and we must complete the privileging process with the facility ASAP. Can you please assist in getting this pulled over?"
+Kayla reply: "Hi Melissa! I will send this over to the dev team to sync his credentialing application, and let you know once I hear back. Best, Kayla"
+
+Issue: Credentialing portal mobile error (initial response)
+Incoming: "I have a clinician Kristen Finley who is having some trouble completing her credentialing. She keeps getting error messages and is not allowed to proceed."
+Kayla reply: "Hi David! We are so sorry she is having trouble accessing her credentialing application. Sometimes when clinicians try to open Credentials → Credentialing Overview on their phone, they may see the message 'Oh no, something is definitely broken.' Even though it looks like an error, it's actually a known mobile compatibility issue. I would recommend having her access the credentialing application on her phone using this direct link: https://portal.locumtenens.com/#/credentials/overview. If possible, we usually recommend completing credentialing on a desktop or laptop, as that tends to work the most smoothly. Let me know if she continues to have any trouble! Best, Kayla"
+
+Issue: Credentialing resolved (follow-up)
+Kayla: "Hi David! Sorry for the delay in update, but it looks like Kristin Finley was able to access her credentialing application. It seems she has just a few more tasks to complete. Let me know if you have any questions! Best, Kayla"
+
+Issue: Kimedics invitation sent (after dev team added approver)
+Incoming: "LT team can you confirm these timesheets have been sent to client?"
+Kayla reply: "Hi Chris! They just got back to me and let me know they were able to get that updated. I went ahead and sent over an invitation email to Sandy Brown. [Kimedics invite link] Let me know if you have any questions! Best, Kayla"
+
+--- ALEJANDRO ---
+
+Issue: Kimedics invitation (new timesheet approver)
+Incoming: "We have a new timesheet approver for BKG-1148185 as our previous approver is retiring. Can you add Brooke Crist as the new timesheet approver for this booking?"
+Alejandro reply: "Hi Will, Happy Friday. I hope you're having a great day! I've sent an invitation email to Brooke. If she doesn't see it in her inbox, I recommend checking her Spam/Junk folder, as the message will come from portal@kimedics.com. It may also help to ensure that emails from Kimedics aren't being blocked by her IT team. In the meantime, here's a direct link Brooke can use to create her account if the email doesn't come through: [Kimedics invite link] I hope this helps! Let me know if you need anything further. Regards, Alejandro Guerrero"
+
+Issue: Kimedics email address corrected
+Incoming: "We had an incorrect email for her, it is actually Brooke Crisp, brooke.crisp@tn.gov. She was able to get in and create an account, but the validation email is not coming through for her. Can we try and resend or update her email in the system?"
+Alejandro reply: "Hi Will, I hope you're doing well today! No problem; it happens. I have updated her email on Kimedics, so she should now be able to receive the validation email. I hope this helps! Regards, Alejandro Guerrero"
+
+--- BECKY ---
+
+Issue: Credentialing app mobile error (initial response)
+Incoming: "One of our clinicians is trying to complete his cred app but it's marked as incomplete in our system and I believe that is causing the issue - he keeps getting the below error message. Could you please take a look and let us know what the next step is?"
+Becky reply: "Hi there, Thank you for reaching out! TGIF! The error message the provider is seeing is actually a known issue that occurs when attempting to complete the credentialing application on a mobile device. While it may appear that something is broken, this is a mobile compatibility issue and not related to the application status itself. As a workaround, the provider can try accessing the credentialing application directly using the link below: https://portal.locumtenens.com/#/credentials/overview. For the best experience, we do recommend completing the credentialing application on a desktop or laptop, as this tends to be the most reliable and helps avoid this error. Please let me know if they continue to experience issues after trying the above, and I'd be happy to assist further! Thank you, Becky"
+
+Issue: LTOE login / can't find credentialing tab (initial)
+Incoming: "Dr. Swierkosz is having trouble logging into the LTOE... when he logs in now using the 'Access Online Application' link, he's unable to find the credentialing tab."
+Becky reply: "Hi Julia, Thank you for reaching out. It would be helpful to ask the provider for a screenshot of what he is seeing when he logs in. That will allow us to confirm exactly where he is getting stuck and better assist him. Just to clarify the platforms: LTOE is our general website. When providers begin credentialing, they select the Credentialing tab within the portal and are then redirected to a separate third-party site called Axuall. The name correction should not impact his access, but once we review a screenshot, we can confirm and advise on next steps. I will follow up this email with credentialing instructions you can keep and share with all your providers who need to begin the credentialing process (the LTOE invite link is just for them to verify their account and DOES NOT take them to their credentialing application). Thank you, Becky"
+
+Issue: Credentialing app — nothing happening when clicking button
+Becky reply: "I'm so sorry for the delay, and thank you for staying on top of this for Dr. Swierkosz! I completely understand wanting us to call him. At this time, though, our team does not have the bandwidth to call providers unless a confirmed technical error has occurred. We're always happy to step in for true system issues, but we're not able to walk providers through accessing or completing the credentialing application. He just needs to select 'Authenticate my account' to access his credentialing application. If he is clicking the green button and 'nothing is happening' we recommend swapping to Google Chrome. If he encounters an actual error message or something that appears broken, please send a screenshot and we'll jump in right away. Thank you so much, Julia! Becky"
+
+Issue: Credentialing resolved (Google Chrome fix)
+Becky: "Hi Julia, I just spoke with him, swapping to Google Chrome resolved his issues. He is working on the application now."
+
+Issue: Docs not syncing from Axuall to Salesforce
+Incoming: "I'm reaching out because a number of clinician's credentialing application has not yet synced from Axuall to Salesforce."
+Becky reply: "Good morning Lucie, I hope you had a good weekend! I will review both of these accounts and send them to the Development team, if necessary. Thank you! Becky"
+
+Issue: Kimedics approver not receiving invite
+Incoming: "This same client is having another issue stating they have not received the link to approve our providers time sheet. Is there any way to look into this?"
+Becky reply: "Hi Garen, Other than BKG-1154376, can you let me know what other bookings to look into? Additionally, what is the timesheet approver's name? I can look into this! Thanks, Becky"
+
+--- NOAH ---
+
+Issue: LTOE locked account / forgot password (initial response)
+Incoming: "I am working with a provider trying to assist her in accessing her timesheet. When logging in, she gets a security message saying she is locked out of her account for security purposes and to try again later. Is there a way we can bypass this on our end? She also needs her LTOE log-in changed."
+Noah reply: "Good morning Jaxson, I hope you had a great weekend! It sounds like her account may be locked due to too many incorrect password attempts. In the meantime, she can try logging in using her current LTOE username and select \"Forgot Password\" to reset her password and regain access. If this happens to other providers, using the \"Forgot Password\" option should allow her to reset the password and log in. @LT Helpdesk will be able to assist with updating her LTOE Username. I've looped them in here to assist! Best regards, Noah C."
+
+Issue: Timesheet / LTOE access escalation
+Incoming: "Can we ensure Kyra Compton has production access to LTOE Timesheets? Her view is only showing expenses currently."
+Noah reply: "Hey Jenna! I hope the day is going well. I believe @LT Helpdesk should be able to assist with this. I've looped them in here. Best regards, Noah C."
+
+Issue: Axuall reactivation request (email to Axuall support)
+Noah reply: "Good afternoon, I hope the day is going well! It looks like Dr. Bathsheba A. Wariso (NPI: 1316525686) was deactivated in Axuall. However, she still has active credentials with us. Is it possible to get her Reactivated? Thank you! Best regards, Noah C."
+
+Issue: Resolved — IT/laptop/computer issue (update to recruiter)
+Incoming: "Please see message below from Dr. Fredrick — laptop not working, OneDrive license issue."
+Noah reply: "Hey Clint, As another update, Dr. Fredrick is good to go. I was able to assist her with getting her computer back on and ensuring that she can download her files properly. Best regards, Noah C."
 
 CURRENT QUEUE:
 ${queueList}

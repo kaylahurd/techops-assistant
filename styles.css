@@ -622,7 +622,7 @@ body.on-queue .sidebar { display: none; }
 #tab-assistant.active { display: block; }
 .assistant-layout {
   display: flex; flex-direction: column;
-  height: min(calc(100vh - 220px), 580px);
+  height: calc(100vh - 150px);
   border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; background: var(--card); box-shadow: var(--shadow-sm);
 }
