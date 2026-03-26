@@ -1552,7 +1552,7 @@ function quickAsk(text) {
 
 function autoResizeAssistant(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  el.style.height = Math.min(el.scrollHeight, 180) + 'px';
 }
 
 function assistantKeydown(e) {
