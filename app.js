@@ -1175,7 +1175,7 @@ function openCase(caseId) {
       <div class="thread-view">${threadHtml}</div>
       <div class="compose-section">
         <div class="compose-header">
-          <span class="compose-title">✉️ ${needsReply ? 'Compose Reply' : 'Thread resolved — compose a follow-up?'}</span>
+          <span class="compose-title">✉️ ${needsReply ? 'Compose Reply' : 'Thread resolved. Compose a follow-up?'}</span>
           <button class="btn btn-primary btn-sm" id="gen-reply-btn-${c.id}" onclick="analyzeAndReply('${c.id}')">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             Auto-Generate Response
@@ -1194,7 +1194,7 @@ function openCase(caseId) {
             </a>
           </div>
           <div class="compose-closing" id="compose-closing-${c.id}">
-            <strong>📝 Closing Summary — paste into SF Post tab when done</strong>
+            <strong>📝 Closing Summary: paste into SF Post tab when done</strong>
             <span id="compose-closing-text-${c.id}"></span>
             <button class="btn btn-copy btn-sm" id="compose-closing-copy-${c.id}" style="margin-top:6px;" onclick="copyComposedClosing('${c.id}')">Copy Closing</button>
           </div>
@@ -1316,6 +1316,15 @@ function applyBranch(caseId, issueId, branchKey) {
 async function analyzeAndReply(caseId) {
   const c = MOCK_QUEUE.find(q => q.id === caseId);
   if (!c) return;
+
+  // Check for a branching issue before hitting the API
+  const allTextPre = c.thread.map(m => m.body).join('\n\n');
+  const matchesPre = detectIssues(allTextPre);
+  const issuePre = matchesPre.length > 0 ? matchesPre[0].issue : null;
+  if (issuePre && issuePre.branches) {
+    analyzeAndReplyFallback(caseId, c);
+    return;
+  }
 
   const outputEl = document.getElementById(`compose-output-${caseId}`);
   const draftEl = document.getElementById(`compose-draft-${caseId}`);
@@ -1604,7 +1613,7 @@ LOGIN/PASSWORD: Use Forgot Password on login page. Locked accounts unlock after 
 
 CREDENTIALING ACCESS: locumtenens.com → Log In → CREDENTIALS → Credentialing Overview → Get Started or Authenticate your account → redirects to Axuall. If redirect fails: popup blocker. Recommend Chrome. Safari: disable popup blocker. Chrome help: https://support.google.com/chrome/answer/95472 Safari help: https://support.apple.com/guide/safari/sfri40696/mac. Also try: clear cache, enable third-party cookies, different device.
 
-MISSING CREDENTIALS TAB: LTOE username must match SF email. Check in SF: Details tab → LTOE Username. SF email cannot be changed if portal verified — ticket lthelpdesk@locumtenens.com.
+MISSING CREDENTIALS TAB: LTOE username must match SF email. Check in SF: Details tab → LTOE Username. SF email cannot be changed if portal verified. Ticket lthelpdesk@locumtenens.com.
 
 DOCUMENT LIBRARY: For after credentialing is complete only. Documents uploaded there before finishing the app won't appear in Axuall.
 
@@ -1620,9 +1629,9 @@ MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue. Direct mobile
 
 JH IT SUPPORT: http://dna.jacksonhealthcare.com → Fix an IT Problem. Immediate help: 770-643-5602.
 
-TIMESHEET FORWARDING REQUESTS: When an external contact (facility rep, staffing coordinator, etc.) asks to receive or approve timesheets for a provider — TechOps DOES handle this. Workflow: (1) Add the person in Salesforce, (2) Send them a Kimedics invite. Draft a response confirming you sent the invite and include a [Kimedics invite link] placeholder they'll replace before sending. Do not say TechOps doesn't handle this.
+TIMESHEET FORWARDING REQUESTS: When an external contact (facility rep, staffing coordinator, etc.) asks to receive or approve timesheets for a provider. TechOps DOES handle this. Workflow: (1) Add the person in Salesforce, (2) Send them a Kimedics invite. Draft a response confirming you sent the invite and include a [Kimedics invite link] placeholder they'll replace before sending. Do not say TechOps doesn't handle this.
 
-KIMEDICS INVITES: Always include a [Kimedics invite link] placeholder at the bottom of any Kimedics invite email. The agent will paste in the real link before sending. Invite emails always come from portal@kimedics.com — tell the recipient to check Spam/Junk if they don't see it.
+KIMEDICS INVITES: Always include a [Kimedics invite link] placeholder at the bottom of any Kimedics invite email. The agent will paste in the real link before sending. Invite emails always come from portal@kimedics.com. Tell the recipient to check Spam/Junk if they don't see it.
 
 SF CLOSING SUMMARY: If asked to summarize a case (e.g. "summarize CASE-00338220" or "write a closing summary for [case]"), write 1-3 sentences in first person as ${name}. Cover who reached out, what the issue was, and how it was resolved. The case is complete. End with the provider's pronoun based on context — "She is gtg.", "He is gtg.", or "They are gtg." Default to "They are gtg." if unclear. Do not include labels or headers — just the summary text.
 
@@ -1730,6 +1739,26 @@ async function sendAssistantMessage() {
   input.value = '';
   autoResizeAssistant(input);
   msgs.scrollTop = msgs.scrollHeight;
+
+  // Check for a branching issue before calling the API
+  const preCheckResult = buildAssistantReply(text);
+  if (preCheckResult.needsBranch) {
+    document.getElementById('asst-placeholder')?.remove();
+    const { issue } = preCheckResult;
+    const promptId = 'asst-branch-' + Date.now();
+    const branchHtml = `<div class="asst-msg bot" id="${promptId}">
+      <div class="asst-bubble">Found a match for <strong>${issue.icon || '🔧'} ${issue.title}</strong>. Before generating a reply, please confirm:</div>
+      <div class="asst-branch-prompt">
+        <div class="asst-branch-label">Select the situation that applies:</div>
+        <div class="asst-branch-options">
+          ${issue.branches.map(b => `<button class="asst-branch-btn" onclick="selectBranchInChat(this.closest('.asst-branch-prompt'), ${issue.id}, '${b.key}')">${b.label}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+    msgs.innerHTML += branchHtml;
+    msgs.scrollTop = msgs.scrollHeight;
+    return;
+  }
 
   // Show typing indicator
   const typingId = 'typing-' + Date.now();
@@ -1890,7 +1919,7 @@ function buildAssistantReply(text) {
     if (issue) return issueResult(issue);
     return {
       reply: `The <strong>"Oh no, something is definitely broken"</strong> error typically shows on mobile.`,
-      detailHtml: buildDetailCard('📱', 'Steps', `<div class="asst-step"><div class="asst-step-num">1</div><div>Ask them to try on a desktop browser first</div></div><div class="asst-step"><div class="asst-step-num">2</div><div>If desktop works, it's mobile/app — escalate to dev team</div></div><div class="asst-step"><div class="asst-step-num">3</div><div>Include their device type and browser version in the escalation</div></div>`)
+      detailHtml: buildDetailCard('📱', 'Steps', `<div class="asst-step"><div class="asst-step-num">1</div><div>Ask them to try on a desktop browser first</div></div><div class="asst-step"><div class="asst-step-num">2</div><div>If desktop works, it is mobile or app-related. Escalate to the dev team.</div></div><div class="asst-step"><div class="asst-step-num">3</div><div>Include their device type and browser version in the escalation</div></div>`)
     };
   }
 
@@ -1915,10 +1944,25 @@ function buildAssistantReply(text) {
   if (best && bestScore >= 1) return issueResult(best);
 
   return {
-    reply: `I searched the knowledge base but couldn't find a direct match. Try rephrasing, or check the <strong>Knowledge Base</strong> tab to browse all known issues — you can also add a new one there.`,
+    reply: `I searched the knowledge base but couldn't find a direct match. Try rephrasing, or check the <strong>Knowledge Base</strong> tab to browse all known issues. You can also add a new one there.`,
     detailHtml: null,
     emailDraft: null
   };
+}
+
+const URL_LABELS = {
+  'https://support.google.com/chrome/answer/95472': 'How to Allow Pop-ups in Chrome',
+  'https://support.apple.com/guide/safari/sfri40696/mac': 'How to Allow Pop-ups in Safari (Mac, iPhone & iPad)'
+};
+
+function renderTemplateBody(text) {
+  // Strip double newlines for compact display, then HTML-escape, then auto-link known URLs
+  const compact = text.replace(/\n{2,}/g, '\n');
+  const escaped = compact.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return escaped.replace(/(https?:\/\/[^\s<>"]+)/g, url => {
+    const label = URL_LABELS[url] || url;
+    return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--lt-blue);text-decoration:underline;">${label}</a>`;
+  });
 }
 
 function issueResult(issue) {
@@ -1940,7 +1984,7 @@ function issueResult(issue) {
     (stepsHtml
       ? stepsHtml
       : emailBody
-        ? `<pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${emailBody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`
+        ? `<pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${renderTemplateBody(emailBody)}</pre>`
         : '');
   return {
     reply: `Found a match in the knowledge base for <strong>${issue.icon || '🔧'} ${issue.title}</strong>.`,
@@ -1992,12 +2036,10 @@ function copyEmailOnly(msgId, btn) {
 }
 
 // ── ISSUE #15: KIMEDICS TIMESHEET / INVITE PUSH ───────────────────────────
-// Added based on real team example — internal staff asking TechOps to push
-// a Kimedics invite or timesheet to the correct approver/recipient.
 ISSUES.push({
   id: 15, category: "email", icon: "📲",
-  title: "Kimedics Invitation — Sent with Portal Link",
-  description: "Send or resend a Kimedics invitation email to a provider or approver. Response confirms the invite was sent, includes spam/junk note, and provides the direct portal link.",
+  title: "Kimedics Invitation: Sent with Portal Link",
+  description: "Send or resend a Kimedics invitation. Select whether you are replying to the invitee directly or to someone who will forward the info.",
   keywords: [
     "kimedics", "kimedics invitation", "kimedics invite", "send kimedics invite",
     "sent kimedics", "kimedics email", "kimedics link", "kimedics portal",
@@ -2007,11 +2049,19 @@ ISSUES.push({
     "point of contact", "can you push", "scheduling app", "shift invite",
     "send a push", "push for", "bkg-"
   ],
-  email: {
-    subject: "Re: Kimedics Invitation",
-    body: `Hi [Name]! Happy [Day]! I've sent an invitation email to [Provider Name]. If they don't see it in their inbox, I'd recommend checking their Spam/Junk folder. The message will come from portal@kimedics.com. It may also help to make sure emails from Kimedics aren't being blocked by their IT team. In the meantime, here's a direct link [Provider Name] can use to create their account if the email doesn't come through: [Kimedics invite link]. I hope this helps! Let us know if you need anything further.
-Best,
-[Your Name]`
+  branches: [
+    { key: 'toInvitee', label: 'You are replying directly to the invitee' },
+    { key: 'toForwarder', label: 'You are replying to someone who will forward the info to the invitee' }
+  ],
+  emailBranches: {
+    toInvitee: {
+      subject: "Re: Kimedics Invitation",
+      body: `Hi [Provider Name]! We have sent a Kimedics invitation to your email. If you do not see it, please check your Spam/Junk folder as it will come from portal@kimedics.com. You can also use this direct link to create your account: [Kimedics invite link]. Let us know if you need any help!\nBest,\n[Your Name]`
+    },
+    toForwarder: {
+      subject: "Re: Kimedics Invitation",
+      body: `Hi [Name]! Happy [Day]! I have sent a Kimedics invitation email to [Provider Name]. If they do not see it in their inbox, please ask them to check their Spam/Junk folder. The message will come from portal@kimedics.com. Here is a direct link they can use to create their account: [Kimedics invite link]. Let us know if you need anything further!\nBest,\n[Your Name]`
+    }
   }
 });
 ISSUE_CASUAL[15]  = "getting their Kimedics invite or timesheet to the right person";
@@ -2499,7 +2549,7 @@ function generateResponse() {
   const draftCardTitle = document.querySelector('#output-section .card-title');
   const draftCardSubtitle = document.querySelector('#output-section .card-subtitle');
   if (draftCardTitle) draftCardTitle.textContent = ctx.noResponseDetected ? 'Follow-Up Email' : 'Drafted Response';
-  if (draftCardSubtitle) draftCardSubtitle.textContent = ctx.noResponseDetected ? 'No reply yet — send this check-in' : 'Edit before sending';
+  if (draftCardSubtitle) draftCardSubtitle.textContent = ctx.noResponseDetected ? 'No reply yet. Send this check-in.' : 'Edit before sending';
 
   // Follow-up mode: last message was from us, no reply yet
   let draft, subjectText;
@@ -2507,7 +2557,7 @@ function generateResponse() {
     const firstName = replyToName || 'there';
     const issueRef = issue ? issue.title.toLowerCase() : 'your recent issue';
     subjectText = 'RE: Following Up';
-    draft = `${dayOpener}\n\nHi ${firstName},\n\nI just wanted to follow up on my previous message regarding ${issueRef}. Were you able to give it a try? Please let me know if you're still running into any trouble or if you have any questions — happy to help!\n\nBest,\nTechOps Support`;
+    draft = `${dayOpener}\n\nHi ${firstName},\n\nI just wanted to follow up on my previous message regarding ${issueRef}. Were you able to give it a try? Please let me know if you are still running into any trouble or have any questions, we are happy to help!\n\nBest,\nTechOps Support`;
   } else {
     const emailData = issue ? issue.email : GENERIC_EMAIL;
     subjectText = emailData.subject;
@@ -2925,6 +2975,7 @@ function renderKB(cat) {
       <div class="kb-issue-body" id="kb-body-${issue.id}">
         ${ISSUE_DETAIL[issue.id] ? `<div style="padding:10px 14px 0;font-size:12px;color:var(--muted);line-height:1.6;border-bottom:1px solid var(--border);padding-bottom:10px;">${ISSUE_DETAIL[issue.id]}</div>` : ''}
         <div class="kb-section">
+          ${issue.email ? `
           <div class="kb-section-label" style="display:flex;align-items:center;justify-content:space-between;">
             Email Response
             <div style="display:flex;align-items:center;gap:6px;">
@@ -2937,7 +2988,13 @@ function renderKB(cat) {
           </div>
           <div class="kb-template-wrap">
             <textarea class="kb-template-area" id="kb-tmpl-${issue.id}">${issue.email.body}</textarea>
-          </div>
+          </div>` : issue.emailBranches ? `
+          <div class="kb-section-label" style="margin-bottom:10px;">Conditional Reply</div>
+          ${issue.branches.map(b => `<div style="margin-bottom:12px;">
+            <div style="font-size:11px;font-weight:600;color:var(--info-text);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.04em;">${b.label}</div>
+            <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Subject: <em>${issue.emailBranches[b.key].subject}</em></div>
+            <div class="kb-template-wrap"><textarea class="kb-template-area" id="kb-tmpl-${issue.id}-${b.key}">${issue.emailBranches[b.key].body}</textarea></div>
+          </div>`).join('')}` : ''}
         </div>
       </div>
     </div>`;
