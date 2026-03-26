@@ -2111,10 +2111,15 @@ function copyDetailCard(btn) {
 function copyMsgText(msgId, btn) {
   const el = document.getElementById(msgId);
   if (!el) return;
-  // Grab text from bubble + any detail card bodies, skip action buttons
   const parts = [];
   const bubble = el.querySelector('.asst-bubble');
-  if (bubble) parts.push(bubble.innerText.trim());
+  if (bubble) {
+    let text = bubble.innerText.trim();
+    // Strip the intro identification sentence — find where the email draft starts
+    const match = text.match(/\n(Hi |Good morning|Good afternoon|Good evening|Hey )/);
+    if (match) text = text.slice(match.index + 1).trim();
+    parts.push(text);
+  }
   el.querySelectorAll('.asst-detail-card-body').forEach(d => parts.push(d.innerText.trim()));
   copyToClipboard(parts.join('\n\n'), btn, 'Copy');
 }
