@@ -1871,9 +1871,13 @@ async function sendAssistantMessage() {
   autoResizeAssistant(input);
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Check for a branching issue before calling the API
+  // Check for a branching issue before calling the API.
+  // Only show the branch prompt if the input is short/generic (keywords only).
+  // If the user has pasted an email, typed a detailed description, or asked for a fix/tailored response,
+  // skip the branch and let the API generate a response from context.
   const preCheckResult = buildAssistantReply(text);
-  if (preCheckResult.needsBranch) {
+  const inputHasContext = text.length > 60 || /\n/.test(text) || /fix.?up|tailor|adjust|rewrite|improve|based on/i.test(text);
+  if (preCheckResult.needsBranch && !inputHasContext) {
     document.getElementById('asst-placeholder')?.remove();
     const { issue } = preCheckResult;
     const promptId = 'asst-branch-' + Date.now();
