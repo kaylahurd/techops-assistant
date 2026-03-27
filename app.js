@@ -3229,8 +3229,8 @@ function copyKBTemplate(id) {
 // Prototype only — hardcoded users, no real security.
 // In production this would be replaced with Salesforce SSO or an identity provider.
 const USERS = {
-  becky:     { name: 'Becky',     role: 'TechOps Specialist', color: '#7c3aed', initials: 'B'  },
-  kayla:     { name: 'Kayla',     role: 'TechOps Specialist', color: '#0891b2', initials: 'K'  },
+  becky:     { name: 'Becky',     role: 'TechOps Specialist', color: '#db2777', initials: 'B'  },
+  kayla:     { name: 'Kayla',     role: 'TechOps Specialist', color: '#7c3aed', initials: 'K'  },
   noah:      { name: 'Noah',      role: 'TechOps Specialist', color: '#059669', initials: 'N'  },
   alejandro: { name: 'Alejandro', role: 'TechOps Specialist', color: '#d97706', initials: 'AL' }
 };
@@ -3268,6 +3268,9 @@ function applySession(user) {
   // Hide login overlay
   document.getElementById('login-overlay').classList.add('hidden');
 
+  // Apply per-user theme
+  document.body.setAttribute('data-user', user.username);
+
   // Update header
   const avatar = document.getElementById('header-avatar');
   avatar.textContent = user.initials;
@@ -3295,6 +3298,7 @@ function fillLogin(username, password) {
 function logout() {
   sessionStorage.removeItem('techops_user');
   currentUser = null;
+  document.body.removeAttribute('data-user');
   document.getElementById('login-username').value = '';
   document.getElementById('login-password').value = '';
   document.getElementById('login-error').classList.remove('show');

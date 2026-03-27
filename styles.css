@@ -92,36 +92,63 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; }
 ───────────────────────────────────────────────────────────────────── */
 .header {
   position: sticky; top: 0; z-index: 100;
-  background: var(--lt-navy-deep);
-  padding: 0 22px;
-  height: 56px;
+  background: #080e1a;
+  background-image:
+    radial-gradient(ellipse 55% 140% at 12% 50%, rgba(43,168,74,.09) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 100% at 88% 50%, rgba(30,123,196,.07) 0%, transparent 65%);
+  padding: 0 24px;
+  height: 60px;
   display: flex; align-items: center; justify-content: space-between;
-  box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 2px 12px rgba(0,0,0,.2);
+  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 4px 24px rgba(0,0,0,.45);
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
 }
 .header::after {
   content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--lt-green) 0%, var(--lt-blue) 55%, var(--lt-navy) 100%);
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--lt-green) 0%, #1e7bc4 45%, #7c3aed 100%);
+  opacity: .9;
 }
-.header-left { display: flex; align-items: center; gap: 12px; }
+.header-left { display: flex; align-items: center; gap: 13px; position: relative; }
 .header-logo {
-  width: 30px; height: 30px;
-  background: var(--lt-green);
-  border-radius: 7px;
+  width: 36px; height: 36px;
+  background: linear-gradient(140deg, var(--lt-green) 0%, #1a7bc4 100%);
+  border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 0 18px rgba(43,168,74,.28), 0 2px 8px rgba(0,0,0,.5);
 }
-.header-logo svg { width: 15px; height: 15px; }
+.header-logo svg { width: 17px; height: 17px; }
 .header-title {
   font-family: 'Inter', sans-serif;
-  font-size: 14px; font-weight: 600;
+  font-size: 15px; font-weight: 700;
   color: #fff; line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
 }
+.header-title-accent { color: var(--lt-green); }
 .header-sub {
-  font-size: 11px; color: rgba(255,255,255,.38);
-  font-weight: 400; margin-top: 1px;
+  font-size: 10px;
+  font-weight: 400; margin-top: 3px;
+  display: flex; align-items: center; gap: 5px;
+  color: rgba(255,255,255,.35);
   font-family: 'JetBrains Mono', monospace; letter-spacing: 0.01em;
+}
+.header-org-badge {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 9px; font-weight: 700;
+  color: rgba(255,255,255,.45);
+  letter-spacing: 0.06em;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
 }
 
 .btn-sf-coming {
@@ -230,7 +257,7 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; }
 .layout {
   display: grid;
   grid-template-columns: 220px 1fr;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 60px);
   transition: grid-template-columns .2s ease;
 }
 .layout.sidebar-collapsed { grid-template-columns: 40px 1fr; }
@@ -244,8 +271,8 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Inter', sans-serif; }
   border-right: 1px solid var(--border);
   padding: 14px 10px 24px;
   display: flex; flex-direction: column; gap: 20px;
-  position: sticky; top: 56px;
-  height: calc(100vh - 56px);
+  position: sticky; top: 60px;
+  height: calc(100vh - 60px);
   overflow-y: auto; overflow-x: hidden;
   transition: padding .2s ease;
 }
@@ -1120,9 +1147,9 @@ body.chat-docked .main { padding-right: calc(40vw + 8px); }
 
 body.chat-docked #chat-panel {
   position: fixed;
-  top: 56px; right: 0; bottom: 0;
+  top: 60px; right: 0; bottom: 0;
   width: 40vw;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 60px);
   border-radius: 0;
   border: none;
   border-left: 1px solid var(--border);
@@ -1143,7 +1170,7 @@ body.chat-docked .chat-fab { display: none !important; }
 ───────────────────────────────────────────────────────────────────── */
 #kb-right-sidebar {
   position: fixed;
-  top: 56px; right: 40vw; bottom: 0;
+  top: 60px; right: 40vw; bottom: 0;
   width: 260px;
   background: var(--sidebar-bg);
   border-left: 1px solid var(--border);
@@ -1245,3 +1272,67 @@ body.chat-docked .chat-disconnect-btn { display: inline-flex; }
   width: 5px; height: 5px; border-radius: 50%;
   background: var(--muted); flex-shrink: 0;
 }
+
+/* ─────────────────────────────────────────────────────────────────────
+   PER-USER THEMES
+───────────────────────────────────────────────────────────────────── */
+
+/* Kayla — purple */
+body[data-user="kayla"] {
+  --lt-green:       #7c3aed;
+  --lt-green-dark:  #6d28d9;
+  --lt-green-light: #ede9fe;
+  --lt-green-pale:  #f5f3ff;
+  --green:          #7c3aed;
+  --green-dark:     #6d28d9;
+  --green-light:    #ede9fe;
+  --green-pale:     #f5f3ff;
+  --teal:           #7c3aed;
+  --teal-light:     #ede9fe;
+  --teal-dark:      #6d28d9;
+  --tip-bg:         #ede9fe;
+  --tip-border:     #c4b5fd;
+  --tip-text:       #5b21b6;
+}
+body[data-user="kayla"] .header::after {
+  background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 45%, #1e7bc4 100%);
+}
+body[data-user="kayla"] .header-logo {
+  background: linear-gradient(140deg, #7c3aed 0%, #4f46e5 100%);
+  box-shadow: 0 0 18px rgba(124,58,237,.35), 0 2px 8px rgba(0,0,0,.5);
+}
+body[data-user="kayla"] .header::before {
+  background-image: radial-gradient(ellipse 55% 140% at 12% 50%, rgba(124,58,237,.09) 0%, transparent 65%),
+                    radial-gradient(ellipse 35% 100% at 88% 50%, rgba(79,70,229,.07) 0%, transparent 65%);
+}
+body[data-user="kayla"] .header-title-accent { color: #a78bfa; }
+
+/* Becky — pink */
+body[data-user="becky"] {
+  --lt-green:       #db2777;
+  --lt-green-dark:  #be185d;
+  --lt-green-light: #fce7f3;
+  --lt-green-pale:  #fdf2f8;
+  --green:          #db2777;
+  --green-dark:     #be185d;
+  --green-light:    #fce7f3;
+  --green-pale:     #fdf2f8;
+  --teal:           #db2777;
+  --teal-light:     #fce7f3;
+  --teal-dark:      #be185d;
+  --tip-bg:         #fce7f3;
+  --tip-border:     #f9a8d4;
+  --tip-text:       #9d174d;
+}
+body[data-user="becky"] .header::after {
+  background: linear-gradient(90deg, #db2777 0%, #9333ea 45%, #1e7bc4 100%);
+}
+body[data-user="becky"] .header-logo {
+  background: linear-gradient(140deg, #db2777 0%, #9333ea 100%);
+  box-shadow: 0 0 18px rgba(219,39,119,.32), 0 2px 8px rgba(0,0,0,.5);
+}
+body[data-user="becky"] .header::before {
+  background-image: radial-gradient(ellipse 55% 140% at 12% 50%, rgba(219,39,119,.09) 0%, transparent 65%),
+                    radial-gradient(ellipse 35% 100% at 88% 50%, rgba(147,51,234,.07) 0%, transparent 65%);
+}
+body[data-user="becky"] .header-title-accent { color: #f472b6; }
