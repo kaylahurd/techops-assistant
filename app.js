@@ -1582,7 +1582,7 @@ function buildSystemPrompt() {
   if (chatCaseId) {
     const c = MOCK_QUEUE.find(q => q.id === chatCaseId);
     if (c) {
-      caseContext = `\nACTIVE CASE: #${c.id} — ${c.subject}\nProvider: ${c.provider}\nThread:\n${c.thread.map(m => `[${m.role === 'provider' ? 'Provider' : 'TechOps'}]: ${m.body}`).join('\n\n')}\n`;
+      caseContext = `\nACTIVE CASE: #${c.id}: ${c.subject}\nProvider: ${c.provider}\nThread:\n${c.thread.map(m => `[${m.role === 'provider' ? 'Provider' : 'TechOps'}]: ${m.body}`).join('\n\n')}\n`;
     }
   }
   const kbList = ISSUES.map(i => `- ${i.title}: ${i.description}`).join('\n');
@@ -1591,15 +1591,15 @@ function buildSystemPrompt() {
   return `You are the TechOps Assistant for LocumTenens.com, helping TechOps support agents draft provider email responses, troubleshoot issues, and answer questions quickly and accurately.
 
 CURRENT AGENT: ${name}
-SIGNING OFF AS: ${name} — use this name at the end of any email drafts.
+SIGNING OFF AS: ${name}. Use this name at the end of any email drafts.
 
 ${caseContext}
 
 KNOWLEDGE BASE:
 ${kbList}
-${teamKB ? `\nTEAM EMAIL PATTERNS (real examples of how each agent responds — use these to match tone, routing, and phrasing per person):\n${teamKB}` : ''}
+${teamKB ? `\nTEAM EMAIL PATTERNS (real examples of how each agent responds; use these to match tone, routing, and phrasing per person):\n${teamKB}` : ''}
 
-VERBATIM STYLE EXAMPLES — real emails pulled from the shared mailbox. When generating a reply for a specific agent, match their exact tone, greeting style, sentence structure, and sign-off from these examples. These override generic phrasing.
+VERBATIM STYLE EXAMPLES: Real emails pulled from the shared mailbox. When generating a reply for a specific agent, match their exact tone, greeting style, sentence structure, and sign-off from these examples. These override generic phrasing.
 
 --- KAYLA ---
 
@@ -1619,7 +1619,7 @@ Incoming: "LT team can you confirm these timesheets have been sent to client?"
 Kayla reply: "Hi Chris! They just got back to me and let me know they were able to get that updated. I went ahead and sent over an invitation email to Sandy Brown. [Kimedics invite link] Let me know if you have any questions! Best, Kayla"
 
 Issue: Multiple applications missing from Salesforce — escalation to dev team (initial)
-Incoming: "We are missing several clinicians' credentialing applications from Salesforce — Brian Churchman and others have completed in Axuall but nothing has synced over."
+Incoming: "We are missing several clinicians' credentialing applications from Salesforce. Brian Churchman and others have completed in Axuall but nothing has synced over."
 Kayla reply: "Hi Lucie! I will send this over to the dev team to take a look, and let you know once I hear back! Best, Kayla"
 
 Issue: Credentialing application now in Salesforce (sync resolved update)
@@ -1645,7 +1645,7 @@ Incoming: "Dr. Kuckelman applied in Axuall but nothing has come over to Salesfor
 Alejandro reply: "Good Morning Stephanie, Thank you for bringing this to our attention. I'll share this with our dev team and circle back with findings and next steps as soon as possible. Regards, Alejandro Guerrero"
 
 Issue: Application Started resolved — docs and app synced after review
-Incoming: "Hi, This provider applied but it still shows Application Started and we don't see her documents — can you check?"
+Incoming: "Hi, This provider applied but it still shows Application Started and we don't see her documents. Can you check?"
 Alejandro reply: "Good morning Stefanie and Nancy, I hope you're doing well this morning! After reviewing Dr. Kuckelman's account, I noticed that the credentialing application and other documents have successfully synced. Is there anything specific that you find missing? If so, let us know, and we can coordinate with the development team to ensure it gets transferred over. Regards, Alejandro Guerrero"
 
 --- BECKY ---
@@ -1774,7 +1774,7 @@ RESPONSE FORMAT — always follow this structure:
 
 PROVIDER NAME: If you can identify the provider's name from the input, use it in the email greeting. If not, use "Hi!" as the greeting.
 
-Write in ${name}'s voice: warm, professional, helpful. Address providers by name, use Dr. if applicable. Never use em dashes (—). Never use emojis. Plain text email format only.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()} — always follow these:\n${profile.instructions}` : ''}`;
+Write in ${name}'s voice: warm, professional, helpful. Address providers by name, use Dr. if applicable. NEVER use em dashes (the — character) anywhere in the email body. Use a comma, period, or rewrite the sentence instead. Never use emojis. Plain text email format only.${profile.instructions ? `\n\nPERSONAL INSTRUCTIONS FROM ${name.toUpperCase()}, always follow these:\n${profile.instructions}` : ''}`;
 }
 
 function renderMarkdown(text) {
@@ -2186,11 +2186,11 @@ ISSUES.push({
   emailBranches: {
     toInvitee: {
       subject: "Re: Kimedics Invitation",
-      body: `Hi [Provider Name]! We have sent a Kimedics invitation to your email. If you do not see it, please check your Spam/Junk folder as it will come from portal@kimedics.com. You can also use this direct link to create your account: [Kimedics invite link]. Let us know if you need any help!\nBest,\n[Your Name]`
+      body: `Hi [Provider Name]!\n\nWe have sent a Kimedics invitation to your email. If you do not see it, please check your Spam/Junk folder, as it will come from portal@kimedics.com.\n\nYou can also use this direct link to create your account:\n\n[Kimedics invite link]\n\nLet us know if you need any help!\nBest,\n[Your Name]`
     },
     toForwarder: {
       subject: "Re: Kimedics Invitation",
-      body: `Hi [Name]! Happy [Day]! I have sent a Kimedics invitation email to [Provider Name]. If they do not see it in their inbox, please ask them to check their Spam/Junk folder. The message will come from portal@kimedics.com. Here is a direct link they can use to create their account: [Kimedics invite link]. Let us know if you need anything further!\nBest,\n[Your Name]`
+      body: `Hi [Name]!\n\nI have sent a Kimedics invitation email to [Provider Name]. If they do not see it in their inbox, please ask them to check their Spam/Junk folder, as the message will come from portal@kimedics.com.\n\nHere is a direct link they can also use to create their account:\n\n[Kimedics invite link]\n\nLet us know if you need anything further!\nBest,\n[Your Name]`
     }
   }
 });
