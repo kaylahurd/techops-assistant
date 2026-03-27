@@ -1778,7 +1778,12 @@ Write in ${name}'s voice: warm, professional, helpful. Address providers by name
 }
 
 function renderMarkdown(text) {
-  return text
+  // Auto-link known URLs before any other processing
+  const linked = text.replace(/(https?:\/\/[^\s<>"]+)/g, url => {
+    const label = URL_LABELS[url] || url;
+    return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--lt-blue);text-decoration:underline;">${label}</a>`;
+  });
+  return linked
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
     .replace(/`(.*?)`/g, '<code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:12px;">$1</code>')
@@ -1786,6 +1791,7 @@ function renderMarkdown(text) {
     .replace(/^## (.+)$/gm, '<div style="font-weight:700;font-size:14px;margin:12px 0 5px;color:var(--text);">$1</div>')
     .replace(/^[-•\*] (.+)$/gm, '<div style="display:flex;gap:7px;margin:3px 0;"><span style="color:var(--brand);flex-shrink:0;">•</span><span>$1</span></div>')
     .replace(/^(\d+)\. (.+)$/gm, '<div style="display:flex;gap:7px;margin:3px 0;"><span style="font-weight:700;color:var(--brand);min-width:16px;flex-shrink:0;">$1.</span><span>$2</span></div>')
+    .replace(/<\/div>\n\n<div/g, '</div><div')
     .replace(/\n\n/g, '<br><br>')
     .replace(/\n/g, '<br>');
 }
@@ -1973,7 +1979,7 @@ function selectBranchInChat(promptEl, issueId, branchKey) {
       </button>
     </div>
     <div class="asst-detail-card-body">
-      <pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${emailBody.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+      <pre style="white-space:pre-line;font-family:inherit;font-size:13px;line-height:1.7;margin:0;">${renderTemplateBody(emailBody)}</pre>
     </div>
   </div>`;
   if (branch.escalationNote) {
@@ -2077,7 +2083,9 @@ function buildAssistantReply(text) {
 
 const URL_LABELS = {
   'https://support.google.com/chrome/answer/95472': 'How to Allow Pop-ups in Chrome',
-  'https://support.apple.com/guide/safari/sfri40696/mac': 'How to Allow Pop-ups in Safari (Mac, iPhone & iPad)'
+  'https://support.apple.com/guide/safari/sfri40696/mac': 'How to Allow Pop-ups in Safari (Mac, iPhone & iPad)',
+  'https://portal.locumtenens.com/#/credentials/overview': 'Credentialing Application (Direct Mobile Link)',
+  'http://dna.jacksonhealthcare.com': 'Jackson Healthcare IT Support Portal'
 };
 
 function renderTemplateBody(text) {
