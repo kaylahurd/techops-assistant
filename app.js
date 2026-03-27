@@ -1750,6 +1750,8 @@ AXUALL PRE-POPULATION: Auto-fills licenses, certs, basic demographics after iden
 
 DOCUMENT SYNC: Takes up to 24 hours to sync from Axuall to SF. Normal. Do not open a ticket.
 
+SYNC FAILURE — PREVENTION AND ROOT CAUSES: If asked how to prevent sync issues or what causes them, share these best practices: (1) Check for duplicate accounts — if a duplicate exists, LT Helpdesk must merge it; an NPI on the wrong/duplicate account disrupts the sync and should be removed. (2) Verify SSN matches between Axuall and Salesforce — mismatches cause sync failures. (3) Check for last name mismatches between Axuall and Salesforce. When a sync failure does occur, the dev team manually forces the sync since automatic sync failed. They are aware and working on a full fix.
+
 MOBILE ERROR "SOMETHING IS DEFINITELY BROKEN": Known mobile issue. Direct mobile link: https://portal.locumtenens.com/#/credentials/overview. Recommend desktop when possible.
 
 JH IT SUPPORT: http://dna.jacksonhealthcare.com → Fix an IT Problem. Immediate help: 770-643-5602.
@@ -2350,6 +2352,45 @@ Best,
 ISSUE_CASUAL[20]  = "a request to be added as a timesheet recipient or approver in Kimedics";
 ISSUE_DETAIL[20]  = "An external contact requested to receive or approve timesheets for a provider. TechOps adds the person in SF and sends a Kimedics invite.";
 ISSUE_ACTION[20]  = "submitted a request to add them as the timesheet recipient in SF and sent a Kimedics invite";
+
+// ── ISSUE #21: AXUALL TO SF SYNC — PREVENTION & BEST PRACTICES ───────────
+ISSUES.push({
+  id: 21, category: "cred", icon: "🔄",
+  title: "Axuall to Salesforce Sync — Prevention & Best Practices",
+  description: "What causes the Axuall-to-SF sync to fail, and how to prevent or troubleshoot it.",
+  keywords: [
+    "prevent sync", "avoid sync", "sync best practices", "how to prevent sync issue",
+    "why is sync failing", "why does sync fail", "what causes sync to fail",
+    "sync prevention", "sync troubleshooting", "sync issues", "sync problems",
+    "how to avoid sync", "stop sync from failing", "sync not working why",
+    "axuall sync issue", "axuall to salesforce", "documents not syncing",
+    "what can cause sync", "sync root cause", "duplicate account sync",
+    "ssn mismatch", "last name mismatch sync", "npi wrong account"
+  ],
+  email: {
+    subject: "Axuall to Salesforce Sync — Best Practices",
+    body: `Hi [Name],
+
+When we receive notice of a sync issue, the dev team manually forces the document sync since it was unable to update automatically in Salesforce. They are aware of the issue and working toward a full fix, but in the meantime here are a few things that can cause or prevent sync failures:
+
+Check for duplicate accounts
+If a duplicate exists, please reach out to LT Helpdesk to have it merged, as duplicates can interfere with the sync. An NPI number on the incorrect (duplicate) account will disrupt the sync flow. Removing it from the wrong account will help.
+
+Verify SSN matches
+Make sure the SSN in Axuall matches what is in Salesforce. If they differ, find the correct one and replace it.
+
+Check for last name mismatches
+If the last name differs between Axuall and Salesforce, it can also cause sync issues.
+
+Please let me know if you have any questions!
+
+Best,
+[Your Name]`
+  }
+});
+ISSUE_CASUAL[21]  = "a sync issue between Axuall and Salesforce";
+ISSUE_DETAIL[21]  = "Documents or credentialing data failed to sync from Axuall to Salesforce. The dev team force-syncs manually. Common causes: duplicate accounts, NPI on wrong account, SSN mismatch, last name mismatch.";
+ISSUE_ACTION[21]  = "shared sync prevention best practices";
 
 // ── UTILITIES ─────────────────────────────────────────────────────────────
 function capitalize(str) {
