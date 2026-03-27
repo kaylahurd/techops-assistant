@@ -1871,29 +1871,8 @@ async function sendAssistantMessage() {
   autoResizeAssistant(input);
   msgs.scrollTop = msgs.scrollHeight;
 
-  // Check for a branching issue before calling the API.
-  // Only show the branch prompt if the input is short/generic (keywords only).
-  // If the user has pasted an email, typed a detailed description, or asked for a fix/tailored response,
-  // skip the branch and let the API generate a response from context.
-  const preCheckResult = buildAssistantReply(text);
-  const inputHasContext = text.length > 60 || /\n/.test(text) || /fix.?up|tailor|adjust|rewrite|improve|based on/i.test(text);
-  if (preCheckResult.needsBranch && !inputHasContext) {
-    document.getElementById('asst-placeholder')?.remove();
-    const { issue } = preCheckResult;
-    const promptId = 'asst-branch-' + Date.now();
-    const branchHtml = `<div class="asst-msg bot" id="${promptId}">
-      <div class="asst-bubble">Found a match for <strong>${issue.icon || '🔧'} ${issue.title}</strong>. Before generating a reply, please confirm:</div>
-      <div class="asst-branch-prompt">
-        <div class="asst-branch-label">Select the situation that applies:</div>
-        <div class="asst-branch-options">
-          ${issue.branches.map(b => `<button class="asst-branch-btn" onclick="selectBranchInChat(this.closest('.asst-branch-prompt'), ${issue.id}, '${b.key}')">${b.label}</button>`).join('')}
-        </div>
-      </div>
-    </div>`;
-    msgs.innerHTML += branchHtml;
-    msgs.scrollTop = msgs.scrollHeight;
-    return;
-  }
+  // Always go to the AI — no branch interruption in the assistant tab.
+  // The AI has full KB and email context and can handle any situation intelligently.
 
   // Show typing indicator
   const typingId = 'typing-' + Date.now();
@@ -1928,24 +1907,8 @@ async function sendAssistantMessage() {
     msgs.scrollTop = msgs.scrollHeight;
   } catch (err) {
     document.getElementById(typingId)?.remove();
-    // Fallback to keyword matching
+    // Fallback to keyword matching (no branch — always try to give a direct response)
     const result = buildAssistantReply(text);
-    if (result.needsBranch) {
-      const { issue } = result;
-      const promptId = 'asst-branch-' + Date.now();
-      const branchHtml = `<div class="asst-msg bot" id="${promptId}">
-        <div class="asst-bubble">Found a match for <strong>${issue.icon || '🔧'} ${issue.title}</strong>. Before generating a reply, please confirm:</div>
-        <div class="asst-branch-prompt">
-          <div class="asst-branch-label">Select the situation that applies:</div>
-          <div class="asst-branch-options">
-            ${issue.branches.map(b => `<button class="asst-branch-btn" onclick="selectBranchInChat(this.closest('.asst-branch-prompt'), ${issue.id}, '${b.key}')">${b.label}</button>`).join('')}
-          </div>
-        </div>
-      </div>`;
-      msgs.innerHTML += branchHtml;
-      msgs.scrollTop = msgs.scrollHeight;
-      return;
-    }
     const { reply, detailHtml, emailDraft } = result;
     const msgId = 'asst-msg-' + Date.now();
     const replyText = reply.replace(/<[^>]+>/g, '');
