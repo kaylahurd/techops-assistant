@@ -1618,6 +1618,10 @@ Issue: Kimedics invitation sent (after dev team added approver)
 Incoming: "LT team can you confirm these timesheets have been sent to client?"
 Kayla reply: "Hi Chris! They just got back to me and let me know they were able to get that updated. I went ahead and sent over an invitation email to Sandy Brown. [Kimedics invite link] Let me know if you have any questions! Best, Kayla"
 
+Issue: Multiple applications missing from Salesforce — escalation to dev team (initial)
+Incoming: "We are missing several clinicians' credentialing applications from Salesforce — Brian Churchman and others have completed in Axuall but nothing has synced over."
+Kayla reply: "Hi Lucie! I will send this over to the dev team to take a look, and let you know once I hear back! Best, Kayla"
+
 Issue: Credentialing application now in Salesforce (sync resolved update)
 Incoming: follow-up on a sync ticket for Chidozie Chimoeze
 Kayla reply: "Hi Lucie! As an update, Chidozie Chimezies credentialing application is now in SF. Let me know if you have any questions! Best, Kayla"
@@ -1635,6 +1639,10 @@ Alejandro reply: "Hi Will, I hope you're doing well today! No problem; it happen
 Issue: Credentialing tab visibility / Portal Invite Sent By field missing
 Incoming: "Hi, I'm reaching out because one of our providers, Elizabeth Moll, is stating that she is not seeing the Credentialing tab when she logs in."
 Alejandro reply: "Hi Stefanie, After reviewing the account, it appears that the Credentialing tab is now available for the provider. I did notice that the 'Portal Invite Sent By' field is missing in Salesforce. It may be worth populating that field, as it ensures a proper connection between the provider and the Clinician Portal. Alternatively, resending the invitation should correct that as well. Please let us know if the provider continues to experience any problems. I hope you both have a great weekend ahead! Regards, Alejandro Guerrero"
+
+Issue: Credentialing docs not syncing — escalation to dev team (initial)
+Incoming: "Dr. Kuckelman applied in Axuall but nothing has come over to Salesforce and it still shows Application Started."
+Alejandro reply: "Good Morning Stephanie, Thank you for bringing this to our attention. I'll share this with our dev team and circle back with findings and next steps as soon as possible. Regards, Alejandro Guerrero"
 
 Issue: Application Started resolved — docs and app synced after review
 Incoming: "Hi, This provider applied but it still shows Application Started and we don't see her documents — can you check?"
@@ -1668,6 +1676,14 @@ Issue: Provider called in directly — LTOE invite sent while recruiter follows 
 Incoming: provider (Heather Anderson) called the shared line looking for next steps; recruiter Audrey hadn't yet followed up
 Becky reply: "Hi Audrey! I received a call from Heather Anderson just now. She mentioned that she is interested in working with us but has not yet heard back from an associate regarding next steps. I wanted to let you know in case you'd like to follow up directly with her. In the meantime, I also sent her an invitation to the Online Experience so she can begin exploring the platform. Please let me know what you'd prefer. Thank you, Becky"
 
+Issue: How to access credentialing — step-by-step instructions for provider
+Incoming: recruiter asking how to walk provider Mohamed Humad through starting credentialing
+Becky reply: "Here are some instructions that can be shared with the provider as well on how to get started! 1. Log in to the LTOE portal. 2. Select the Credentials tab. 3. Click Credentialing Overview. 4. Click 'Get Started' or 'Authenticate my account' to be redirected to Axuall where the credentialing application is completed."
+
+Issue: Axuall status discrepancy — Overview vs Details view
+Incoming: "The provider's status shows Deactivated in the Overview/My Clinicians view but she says she's been active — are we doing something wrong?"
+Becky reply: "Great question, you're not doing anything wrong here. The Overview/My Clinicians view isn't always the most accurate for login activity or status. I recommend clicking into Details to see the true last login, as that view tends to be more reliable. The 'Deactivated' status can also be misleading and typically updates once the provider submits their application, so it's not uncommon to see inconsistencies between tabs. Thank you, Becky"
+
 --- NOAH ---
 
 Issue: LTOE locked account / forgot password (initial response)
@@ -1692,6 +1708,21 @@ Noah reply: "Good morning Abigail, I hope your day is going well! This is happen
 Issue: Directing to TechOps email + LTOE username update via LT Helpdesk
 Incoming: provider or recruiter reaching out directly to Noah's personal email for help
 Noah reply: "Good afternoon, Happy Friday! To reach the TechOps team, please use techopshelpdesk@locumtenens.com. Additionally, to update the LTOE Username, @LT Helpdesk will be able to assist! I've included them here. Best regards, Noah C."
+
+Issue: Document upload format error — wrong file type for CME documents
+Incoming: "Dr. Weber has been trying to upload her CME documents but keeps getting errors — can you upload them on our behalf?"
+Noah reply: "Good afternoon Julia, I hope you had a great weekend! Our team isn't able to upload documents on behalf of clinicians. Those will need to be uploaded directly by the provider. That said, I did notice that the files being uploaded were in .jpeg format. The headshot section does accept .jpeg files, but the CME documents will need to be uploaded as .pdf or .docx files. If it's helpful, you're welcome to send those files over and we can convert them to the correct format for you. Best regards, Noah C. LT Technical Operations"
+
+Issue: Provider uploading to Document Library instead of credentialing app — also popup/Chrome fix
+Incoming: provider Dr. Salib uploading docs to Document Library but they aren't showing up in her application; also getting popup errors
+Noah reply: "Good afternoon Alli, I hope the day is going well! After reviewing her account, it appears that Dr. Salib has been attempting to upload documents into the LTOE Document Library instead of the credentialing application in Axuall. The Document Library is a separate section intended for use after credentialing is complete. To upload documents to the credentialing application, she'll need to log in to LTOE, navigate to Credentials, click Credentialing Overview, and select Authenticate my account to be redirected to Axuall. If the redirect doesn't happen, it's likely due to popup blockers in browsers like Safari on Mac, iPhone and iPad. To resolve this, we recommend using Google Chrome. I hope this helps! Best regards, Noah C. LT Technical Operations"
+
+Issue: Credentialing not syncing — provider missing Axuall ID (internal note to dev team)
+Incoming: (internal) provider Furrukh Malik completed cred app but documents haven't synced to Salesforce; no Axuall ID visible
+Noah reply: "Good afternoon, I hope the day is going well! We were just informed that Furrukh Malik (NPI: 1790776672) completed his cred app 1/22/26 2:30 pm. Documents and data have not been synced into our SF yet. I noticed that he does not have an Axuall ID yet, which I believe is a part of the issue. Is this something that can be added? Thank you! Best regards, Noah C."
+
+Issue: Provider resolved — connected and good to go (brief follow-up)
+Noah reply: "Hello again! Just got off the phone with Dr. Shengelia and she's connected and good to go. Best regards, Noah C."
 
 CURRENT QUEUE:
 ${queueList}
