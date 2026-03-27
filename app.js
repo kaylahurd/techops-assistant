@@ -1033,6 +1033,458 @@ Best,
 Alejandro`
       }
     ]
+  },
+
+  // ── CASES FROM REAL EMAILS (Mar 26–27, 2026) ──────────────────────────────
+  {
+    id: "CASE-00338231", provider: "Hatem Elabd, MD", subject: "RE: Hatem Elabd, MD: Applications Missing from SalesForce",
+    status: "Closed", priority: "Normal", created: "Mar 26", category: "cred", unread: false,
+    caseOwner: "Alejandro",
+    services: "Axuall", subCategory: "Document Sync", rootCause: "Name Mismatch (Middle Initial)", ltAssociate: "Lucie Lee",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338231/view",
+    thread: [
+      {
+        from: "Lucie Lee (Recruiter)", role: "internal", email: "lulee@locumtenens.com",
+        date: "Mar 26 · 1:00 PM",
+        body: `Hello!
+
+I'm reaching out because Hatem Elabd's credentialing application has not yet synced from Axuall to Salesforce. Below are the details:
+
+Hatem Elabd, MD
+Axuall Share Completed: 3/24/2026 at 4:25 PM
+
+Could you please review and let me know what information or assistance I can provide to help troubleshoot and resolve this syncing issue? I'm happy to provide any additional details you need from my side.
+
+Thank you so much for your support!
+
+Lucie Lee`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 1:23 PM",
+        body: `Hi Lucie,
+
+Thank you for bringing this to our attention!
+
+I will submit this to the development team for a manual sync. I will update you once it is resolved.
+
+Regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 3:31 PM",
+        body: `Hi Lucie,
+
+I was informed that the reason for the failed attempt is a name mismatch between Salesforce and Axuall. The middle initial "E" in SF is causing issues with the synchronization process.
+
+Could you please correct this to match what Axuall shows: Hatem Elabd? Once that is corrected, let me know so I can start the manual sync for you.
+
+Thank you!
+
+Regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Lucie Lee (Recruiter)", role: "internal", email: "lulee@locumtenens.com",
+        date: "Mar 26 · 3:32 PM",
+        body: `Hello! It has been updated!`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 3:45 PM",
+        body: `Thank you, Lucie!
+
+I'll update you as soon as the manual sync finishes.
+
+Regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 27 · 9:00 AM",
+        body: `Good morning and happy Friday Lucie!
+
+I just wanted to update you that the documents are now in the provider's account. Let me know if I can assist you with anything else.
+
+Regards,
+Alejandro Guerrero`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338232", provider: "Loretta Ann Hoffman", subject: "Re: Loretta Ann Hoffman - BKG-1155875",
+    status: "Closed", priority: "High", created: "Mar 25", category: "ltoe", unread: false,
+    caseOwner: "Noah",
+    services: "LTOE", subCategory: "Timesheet Error", rootCause: "Processed TS in Errored Status", ltAssociate: "Allison Autry",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338232/view",
+    thread: [
+      {
+        from: "Allison Autry (Recruiter)", role: "internal", email: "allison.autry@locumtenens.com",
+        date: "Mar 25 · 11:18 AM",
+        body: `Hey!
+
+We have a TS that was approved yesterday but still showing as missing client signature. Can you please look into it and see if there is anything we need to do?
+
+Thank you!`
+      },
+      {
+        from: "Noah (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 25 · 12:26 PM",
+        body: `Good afternoon Allison,
+
+I hope the day is going well!
+
+I'll reach out to our dev team to look into this further. I'll provide an update as soon as I'm able to!
+
+Best regards,
+Noah C.`
+      },
+      {
+        from: "Noah (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 25 · 2:59 PM",
+        body: `Hello again!
+
+As an update, it looks like this may have occurred because the Processed timesheet was in 'Errored' status. They were able to re-process the timesheet and it is now showing as 'Complete' and the Processed TS is showing 'Needs Review' in SF.
+
+Best regards,
+Noah C.`
+      },
+      {
+        from: "Allison Autry (Recruiter)", role: "internal", email: "allison.autry@locumtenens.com",
+        date: "Mar 25 · 3:01 PM",
+        body: `Thank you so much for the quick update! We will address it in Needs Review.`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338233", provider: "Dr. Sanggyu Bae", subject: "Re: LT Mobile App: Help Needed",
+    status: "Closed", priority: "Normal", created: "Mar 24", category: "mobile", unread: false,
+    caseOwner: "Alejandro",
+    services: "LTOE Mobile", subCategory: "Expense Duplicate", rootCause: "Provider Submitted Twice", ltAssociate: "Dr. Sanggyu Bae",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338233/view",
+    thread: [
+      {
+        from: "Dr. Sanggyu Bae (Provider)", role: "provider", email: "fourthdown1789@gmail.com",
+        date: "Mar 24 · 4:31 PM",
+        body: `Re: Fuel reimbursement.
+
+Hello. I uploaded duplicate reimbursement request by mistake today. Could you please remove one of them?
+
+Thank you,
+Sanggyu`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 24 · 5:32 PM",
+        body: `Hi Dr. Bae,
+
+I hope you're having a wonderful day!
+
+Before I submit your request, I want to confirm that the duplicates you're referring to are the Shell ones listed below. If that's correct, I will proceed with submitting the request to delete the duplicate expense.
+
+Regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Dr. Sanggyu Bae (Provider)", role: "provider", email: "fourthdown1789@gmail.com",
+        date: "Mar 24 · 6:01 PM",
+        body: `Hi Alejandro.
+
+Yes. That is correct. I thought first upload didn't go through. Thank you.
+
+Sanggyu`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 25 · 9:57 AM",
+        body: `Good morning, Dr. Bae,
+
+No problem at all; these things happen! I will proceed with the request to have the duplicate removed from your expenses.
+
+I hope you have a wonderful day ahead. If you need any further assistance, please feel free to reach out.
+
+Best regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 25 · 11:55 AM",
+        body: `Hi Dr. Bae,
+
+I wanted to inform you that the duplicate expense has been removed from your account.
+
+Wishing you a wonderful day ahead!
+
+Regards,
+Alejandro Guerrero`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338234", provider: "Dr. Brandon Kuiper", subject: "Re: Dr. Kuiper Issue - Getting Stuck in Axuall",
+    status: "Closed", priority: "Normal", created: "Mar 25", category: "axuall", unread: false,
+    caseOwner: "Kayla",
+    services: "Axuall", subCategory: "Access Issue", rootCause: "Axuall Login via LT Link", ltAssociate: "Julia Jensen",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338234/view",
+    thread: [
+      {
+        from: "Julia Jensen (Recruiter)", role: "internal", email: "julia.jensen@locumtenens.com",
+        date: "Mar 25 · 10:01 AM",
+        body: `Hello,
+
+Can someone please assist Dr. Brandon Kuiper with the verification in Axuall? He is having issues getting past this piece to successfully get to our re-credentialing application.
+
+He has already reached out to Axuall on his own, wanted to check and see if there is anything we can do in the meantime here.
+
+Thanks,`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 25 · 7:16 AM",
+        body: `Hi Dr. Kuiper!
+
+I hope you're having a great day. We're sorry to hear you're having trouble accessing your credentialing application. Could you please share any screenshots or images of the issue you're seeing?
+
+Best,
+Kayla`
+      },
+      {
+        from: "Dr. Brandon Kuiper (Provider)", role: "provider", email: "bwkuiper@gmail.com",
+        date: "Mar 25 · 11:05 PM",
+        body: `I am not able to log in to Axuall via the Locum Tenens link, but they said to log on to the website directly and "create a wallet" with all of the same information. I was able to do this. Hopefully this means all of this can be pulled now.
+
+Thank you`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 8:40 AM",
+        body: `Hi Dr. Kuiper!
+
+That is great news you were able to get in. It looks like you were able to complete your credentialing application as well!
+
+It should show up on our side within 24 hours. Julia, if you do not see it, please let me know!
+
+Let me know if you have any questions!
+
+Best,
+Kayla`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338235", provider: "Kristin Finley, FNP", subject: "RE: Fw: Credentialing",
+    status: "Closed", priority: "Normal", created: "Mar 17", category: "cred", unread: false,
+    caseOwner: "Kayla",
+    services: "LTOE", subCategory: "Credentialing Access", rootCause: "Mobile Compatibility Issue", ltAssociate: "David Washell",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338235/view",
+    thread: [
+      {
+        from: "David Washell (Recruiter)", role: "internal", email: "david.washell@locumtenens.com",
+        date: "Mar 17 · 9:08 AM",
+        body: `Hello and happy Tuesday!
+
+I have a clinician Kristin Finley who is having some trouble completing her credentialing. She keeps getting error messages and is not allowed to proceed. Do you know what the issue might be so I can help her out?
+
+Thank you so much!
+
+David Washell`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 17 · 9:15 AM",
+        body: `Hi David!
+
+We are so sorry she is having trouble accessing her credentialing application.
+
+Sometimes when clinicians try to open Credentials > Credentialing Overview on their phone, they may see the message "Oh no, something is definitely broken." Even though it looks like an error, it's actually a known mobile compatibility issue.
+
+I would recommend having her access the credentialing application on her phone using this direct link:
+https://portal.locumtenens.com/#/credentials/overview
+
+If possible, we usually recommend completing credentialing on a desktop or laptop, as that tends to work the most smoothly.
+
+Let me know if she continues to have any trouble!
+
+Best,
+Kayla`
+      },
+      {
+        from: "David Washell (Recruiter)", role: "internal", email: "david.washell@locumtenens.com",
+        date: "Mar 17 · 9:19 AM",
+        body: `Thank you so much! I just let her know and hopefully that helps out!`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 17 · 9:22 AM",
+        body: `Of course! Let me know if she's still having any issues!
+
+Best,
+Kayla`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 1:03 PM",
+        body: `Hi David!
+
+Sorry for the delay in update, but it looks like Kristin Finley was able to access her credentialing application. It seems she has just a few more tasks to complete.
+
+Let me know if you have any questions!
+
+Best,
+Kayla`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338236", provider: "Dr. Eric Gardner", subject: "Re: URGENT ASSISTANCE NEEDED - Axuall Profile / Credentialing Application",
+    status: "Closed", priority: "High", created: "Mar 26", category: "cred", unread: false,
+    caseOwner: "Kayla",
+    services: "Axuall", subCategory: "Document Sync", rootCause: "Sync Delay", ltAssociate: "Melissa Bailey",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338236/view",
+    thread: [
+      {
+        from: "Melissa Bailey (Recruiter)", role: "internal", email: "mbailey@locumtenens.com",
+        date: "Mar 26 · 9:54 AM",
+        body: `Hello all,
+
+Dr. Eric J Gardner shared his credentialing application in Axuall on Monday, March 23rd at 7:49pm, but it has not carried over to Salesforce.
+
+Provider External Id: 11445248
+
+He is due to start on 4/6/26, and we must complete the privileging process with the facility ASAP. Can you please assist in getting this pulled over?`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 9:57 AM",
+        body: `Hi Melissa!
+
+I will send this over to the dev team to sync his credentialing application, and let you know once I hear back.
+
+Best,
+Kayla`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 27 · 9:10 AM",
+        body: `Hi Melissa!
+
+Happy Friday! As an update, it looks like Eric Gardner's credentialing application is now in SF.
+
+Let me know if you have any questions!
+
+Best,
+Kayla`
+      },
+      {
+        from: "Melissa Bailey (Recruiter)", role: "internal", email: "mbailey@locumtenens.com",
+        date: "Mar 27 · 9:26 AM",
+        body: `Thank you, Kayla! Just for my knowledge because I'm starting to see this more often — is it something the Dev team has to manually fix each time? Is there a way to avoid it happening in the first place?`
+      },
+      {
+        from: "Kayla (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 27 · 9:35 AM",
+        body: `Hi Melissa!
+
+Of course, happy to help! Whenever we receive notice and let the dev team know, they have to manually force the document sync rather since it was unable to update automatically in Salesforce. I'm not sure on the timeline for a full fix, but they are aware of the issue and working on it.
+
+In the meantime, here are a few best practices that will help:
+
+Check for duplicate accounts
+If a duplicate exists, please reach out to the LT Helpdesk to have it merged, as duplicates can interfere with the sync. An NPI number on the incorrect (duplicate) account will disrupt the sync flow. Removing it from the wrong account will help the sync.
+
+Verify SSN matches
+Make sure the SSN in Axuall matches what's in Salesforce, or find the correct one and replace.
+
+Check for last name mismatches
+If the last name differs between Axuall and Salesforce, it can also cause sync issues.
+
+Please let me know if you have any questions!
+
+Best,
+Kayla`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338237", provider: "Hunter Hotchkiss", subject: "RE: Document download",
+    status: "Closed", priority: "Normal", created: "Mar 26", category: "docs", unread: false,
+    caseOwner: "Becky",
+    services: "Salesforce", subCategory: "Document Download", rootCause: "File Uploaded as Image (PNG/JPEG)", ltAssociate: "Hunter Hotchkiss",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338237/view",
+    thread: [
+      {
+        from: "Hunter Hotchkiss (Internal)", role: "internal", email: "hunter.hotchkiss@locumtenens.com",
+        date: "Mar 26 · 9:08 AM",
+        body: `Hi,
+
+Are you able to help me to download a full client agreement from Salesforce? I am only able to download a page at a time.
+
+Thanks,
+Hunter Hotchkiss`
+      },
+      {
+        from: "Becky (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 9:30 AM",
+        body: `Hi Hunter!
+
+Is the CA a .png or JPEG file? That means it was uploaded as an image and that's why you can only download one page at a time. If you Google a .png to PDF online converter and upload the first page of the CA, all the pages of the CA should be there within the new PDF file.
+
+I use Adobe to convert: https://www.adobe.com/acrobat/online/png-to-pdf.html
+
+Please let me know if you have any questions!
+
+Becky`
+      }
+    ]
+  },
+  {
+    id: "CASE-00338238", provider: "Meredith Sheffield", subject: "RE: JIRA access",
+    status: "Closed", priority: "Normal", created: "Mar 26", category: "ltoe", unread: false,
+    caseOwner: "Alejandro",
+    services: "JIRA", subCategory: "Login Issue", rootCause: "System Cache (Resolved by Restart)", ltAssociate: "Meredith Sheffield",
+    sfUrl: "https://locumtenens.lightning.force.com/lightning/r/Case/CASE-00338238/view",
+    thread: [
+      {
+        from: "Meredith Sheffield (Internal)", role: "internal", email: "msheffield@locumtenens.com",
+        date: "Mar 26 · 3:03 PM",
+        body: `Hi TechOps,
+
+I am having trouble logging into JIRA. I've restarted my computer twice and cleared my cache but still cannot get in. Can you help?
+
+Thanks,
+Meredith`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 3:08 PM",
+        body: `Hi Meredith!
+
+I appreciate you reaching out to us! We apologize for the inconvenience. I am looking into this for you now and will keep you updated.
+
+Please do not hesitate to reach out if you need any further assistance.
+
+Regards,
+Alejandro Guerrero`
+      },
+      {
+        from: "Meredith Sheffield (Internal)", role: "internal", email: "msheffield@locumtenens.com",
+        date: "Mar 26 · 3:18 PM",
+        body: `Thank you Alejandro. I restarted my computer for a third time and was able to get in.`
+      },
+      {
+        from: "Alejandro (TechOps)", role: "techops", email: "techops_helpdesk@locumtenens.com",
+        date: "Mar 26 · 3:26 PM",
+        body: `That is awesome, Meredith!
+
+I was in the middle of finding out, but I am so glad your issue is now resolved. Let me know if I can help you with anything else.
+
+Have a great day ahead!
+
+Regards,
+Alejandro Guerrero`
+      }
+    ]
   }
 ];
 
